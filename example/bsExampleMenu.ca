@@ -21,7 +21,7 @@ include net.html.caliBs.bsPages;
 include net.html.caliBs.bsComponents;
 include net.html.caliBs.bsGlyphs;
 
-include examples.fillerText;
+include example.fillerText;
 
 /**
  * Another example page that features a navbar, grid system and 
