@@ -1,0 +1,1477 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+include net.html.caliBs.bsPages;
+include net.html.caliBs.bsComponents;
+
+include example.bsClasses;
+include example.fillerText;
+
+/**
+ * Class bsComp extends examplePage and creates a page with available 
+ * components and examples of them.
+ */
+class bsComp : examplePage
+{
+	/**
+	 * Constructor creates the components page. Calls the examplePage 
+	 * constructor and then builds the rest of the page.
+	 */
+	public bsComp()
+	{
+		// Call constructor.
+		this.examplePage("caliBs Components");
+		
+		// Create a new bootstrap container div (defined in bsComponents).
+		ctr = new bsContainer();
+		ctr
+			.add(new _h1("Components"))
+			.add(this.comp_text())
+			
+			
+			/**********************************************************
+			 * Buttons
+			 *********************************************************/
+			.add(new _h2("Buttons"))
+			
+			// Button description ... basically preset colors.
+			.add(this.btn_text())
+			.add(new bsToolbar(
+					new bsBtn(null, 'Normal', '#', bsDesc.normal),
+					new bsBtn(null, 'Primary', '#', bsDesc.primary),
+					new bsBtn(null, 'Success', '#', bsDesc.success),
+					new bsBtn(null, 'Info', '#', bsDesc.info),
+					new bsBtn(null, 'Warning', '#', bsDesc.warning),
+					new bsBtn(null, 'Danger', '#', bsDesc.danger),
+					new bsBtn(null, 'Link', '#', bsDesc.link)
+				) // end toolbar
+			)
+			.br()
+			
+			// Button size.
+			.add(this.btn_size_text())
+			.add(new bsToolbar(
+					(new bsBtn(null, 'XSmall', '#', bsDesc.primary)).setSize(bsSize.xs),
+					(new bsBtn(null, 'Small', '#', bsDesc.primary)).setSize(bsSize.sm),
+					(new bsBtn(null, 'Medium', '#', bsDesc.primary)).setSize(bsSize.md),
+					(new bsBtn(null, 'Large', '#', bsDesc.primary)).setSize(bsSize.lg)
+				)
+			)
+			.br()
+			
+			// Active and disabled.
+			.add(this.btn_active_dis_text())
+			.add(new bsToolbar(
+					(new bsBtn(null, 'Active')).setDisabled(false),
+					(new bsBtn(null, 'Disabled')).setDisabled(true)
+				)
+			)
+			.br()
+			
+			// Button w/wo glyph.
+			.add(this.btn_glyph_text())	
+			.add(new bsToolbar(
+					new bsBtn(glyph.magnet, 'Glyph with text'),
+					new bsBtn(glyph.fire)
+				)
+			)
+			.br()
+			
+			// Block level buttons.
+			.add(this.btn_block_text())
+			.add(new bsToolbar(
+					(new bsBtn(null, 'Block = false')).setBlock(false),
+					new _br(), new _br(),
+					(new bsBtn(null, 'Block = true')).setBlock(true)
+				)
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Toolbars
+			 *********************************************************/
+			.add(new _h2("Toolbars"))
+			
+			.add(this.toolbar_text())
+			.add(new bsBtn(null, 'Normal', '#', bsDesc.normal))
+			.add(new bsBtn(null, 'Primary', '#', bsDesc.primary))
+			.add(new bsBtn(null, 'Success', '#', bsDesc.success))
+			.br().br()
+			.add(this.toolbar_desc_text())
+			.add(new bsToolbar(
+					new bsBtn(null, 'Normal', '#', bsDesc.normal),
+					new bsBtn(null, 'Primary', '#', bsDesc.primary),
+					new bsBtn(null, 'Success', '#', bsDesc.success)
+				)	// end toolbar
+			)
+			.br()
+			.add(new bsToolbar(
+					new bsBtnGroup(
+						new bsBtn(null, '1'),
+						new bsBtn(null, '2'),
+						new bsBtn(null, '3')
+					),
+					new bsBtnGroup(
+						new bsBtn(null, '4'),
+						new bsBtn(null, '5'),
+						new bsBtn(null, '6')
+					),
+					new bsBtnGroup(
+						new bsBtn(null, '7'),
+						new bsBtn(null, '8')
+					)
+				)
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Dropdowns
+			 *********************************************************/
+			.add(new _h2("Dropdowns"))
+			
+			.add(new _p(this.dropdown_text()))
+			.add(new bsToolbar(
+					(new bsDropdown('Actions', bsDesc.primary))
+						.addMenuHdr('Menu Header Here')
+						.addMenuLink('One')
+						.addMenuLink('Two')
+						.addMenuDiv()
+						.addMenuLink('Three')
+					,
+					(new bsDropdown('Actions Drop-Up', bsDesc.danger))
+						.addMenuHdr('Menu Header Here')
+						.addMenuLink('One')
+						.addMenuLink('Two')
+						.addMenuDiv()
+						.addMenuLink('Three')
+						.setDropUp(true)
+					,
+					(new bsDropdown('Clickable dropdown With Glyph', bsDesc.warning))
+						.addMenuHdr('Menu Header Here')
+						.addMenuLink('One')
+						.addMenuLink('Two')
+						.addMenuDiv()
+						.addMenuLink('Three')
+						.setIcon(glyph.exclamation_sign)
+						.setUseSplitBtn(true)
+						.setSplitBtnOnClick("alert('Dropdown button clicked!');")
+				)
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Button Groups
+			 *********************************************************/
+			.add(new _h2("Button Groups"))
+			
+			.add(new _p(this.btn_group_text()))
+			.add(new bsBtnGroup(
+					new bsBtn(null, 'One'),
+					new bsBtn(null, 'Two'),
+					new bsBtn(null, 'Three')
+				)
+			)
+			.br().br()
+			
+			// button group sizes
+			.add(new _p(this.btn_group_sizes_text()))
+			.add((new bsBtnGroup(
+					new bsBtn(null, 'One'),
+					new bsBtn(null, 'Two'),
+					new bsBtn(null, 'Three')
+				)).setSize(bsSize.xs)
+			)
+			.br().br()
+			
+			.add((new bsBtnGroup(
+					new bsBtn(null, 'One'),
+					new bsBtn(null, 'Two'),
+					new bsBtn(null, 'Three')
+				)).setSize(bsSize.sm)
+			)
+			.br().br()
+			
+			.add((new bsBtnGroup(
+					new bsBtn(null, 'One'),
+					new bsBtn(null, 'Two'),
+					new bsBtn(null, 'Three')
+				)).setSize(bsSize.md)
+			)
+			.br().br()
+			
+			.add((new bsBtnGroup(
+					new bsBtn(null, 'One'),
+					new bsBtn(null, 'Two'),
+					new bsBtn(null, 'Three')
+				)).setSize(bsSize.lg)
+			)
+			.br().br()
+			
+			
+			// button group alignname
+			.add(new _p(this.btn_group_align_text()))
+			.add((new bsBtnGroup(
+					new bsBtn(null, 'One'),
+					new bsBtn(null, 'Two'),
+					new bsBtn(null, 'Three')
+				)).setVertical(true)
+			)
+			.br().br()
+			
+			
+			/**********************************************************
+			 * Input Groups
+			 *********************************************************/
+			.add(new _h2("Input Groups"))
+			
+			.add(new _p(this.inputgroup_text()))
+			.add(new bsInGroup('@', 'email_address', 'Email Address'))
+			.br()
+			.add(new bsInGroup('.cali-lang.com', 'sub_domain', 'Sub Domain', null, true))
+			.br()
+			.add((new bsInGroup('$', 'cost', 'USD')).addText('.00'))
+			.br()
+			.add(this.inputgroup_note_text())
+			.br()
+			.add(this.inputgroup_sizes_text())
+			.add((new bsInGroup('#', 'phone_num', 'Small')).setSize(bsSize.sm))
+			.br()
+			.add((new bsInGroup('#', 'phone_num', 'Medium')).setSize(bsSize.md))
+			.br()
+			.add((new bsInGroup('#', 'phone_num', 'Large')).setSize(bsSize.lg))
+			.br()
+			.br()
+			
+			.add(this.inputgroup_check_text())
+			.br()
+			.add((new bsHbox())
+				.addCell(new _div((new bsInGroup()).addCheckBox('t_cb', true).addInput('t_un', 'Twitter User Name', 'twitter_handle')), 6)
+				.addCell(new _div((new bsInGroup()).addRadioBtn('c_rb', false).addInput('c_str', 'Color #XXXXXX', 'color')), 6)
+			)
+			.br()
+			
+			.add(this.inputgroup_button_text())
+			.add((new bsHbox())
+				.addCell(new _div((new bsInGroup()).addButton(new bsBtn(glyph.search, 'Search', "alert('Starting search ...');")).addInput('tid', 'Search Text')) , 6)
+				.addCell(new _div((new bsInGroup()).addInput('tid', 'Search Text').addButton(new bsBtn(glyph.search, 'Search', "alert('Starting search ...');"))) , 6)
+			)
+			.br()
+			
+			.add(this.inputgroup_dropdowns_text())
+			.add((new bsHbox())
+				.addCell(new _div((new bsInGroup())
+					.addButton(
+						(new bsDropdown('Actions'))
+							.addMenuLink('Action 1', '#')
+							.addMenuLink('Action 2', '#')
+							.addMenuLink('Action 3', '#')
+					)
+					.addInput('tid', 'Action String')
+				) , 6)
+				.addCell(new _div((new bsInGroup())
+					.addInput('tid', 'Action String')
+					.addButton(
+						(new bsDropdown('Actions'))
+							.addMenuLink('Action 1', '#')
+							.addMenuLink('Action 2', '#')
+							.addMenuLink('Action 3', '#')
+					)
+				) , 6)
+			)
+			.br()
+			
+			.add((new bsHbox())
+				.addCell(new _div((new bsInGroup())
+					.addButton(
+						(new bsDropdown('Actions'))
+							.addMenuLink('Action 1', '#')
+							.addMenuLink('Action 2', '#')
+							.addMenuLink('Action 3', '#')
+							.setUseSplitBtn(true)
+							.setSplitBtnOnClick("alert('Dropdown button clicked!');")
+					)
+					.addInput('tid', 'Action String')
+				) , 6)
+				.addCell(new _div((new bsInGroup())
+					.addInput('tid', 'Action String')
+					.addButton(
+						(new bsDropdown('Actions'))
+							.addMenuLink('Action 1', '#')
+							.addMenuLink('Action 2', '#')
+							.addMenuLink('Action 3', '#')
+							.setUseSplitBtn(true)
+							.setSplitBtnOnClick("alert('Dropdown button clicked!');")
+					)
+				) , 6)
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Navs
+			 *********************************************************/
+			.add(new _h2("Navs"))
+			
+			.add(new _p(this.navs_text()))
+			.add((new bsNav(navType.tab))
+				.add(new bsNavItem('#', 'Home', true))
+				.add(new bsNavItem('#', 'Profile'))
+				.add(new bsNavItem('#', 'Messages'))
+			)
+			.br()
+			
+			// pills
+			.add(new _p(this.navpills_text()))
+			.add((new bsNav(navType.pills))
+				.add(new bsNavItem('#', 'Home', true))
+				.add(new bsNavItem('#', 'Profile'))
+				.add(new bsNavItem('#', 'Messages'))
+			)
+			.br()
+			
+			// stacked
+			.add(new _p(this.navpills_stacked_text()))
+			.add((new bsNav(navType.pills))
+				.add(new bsNavItem('#', 'Home', true))
+				.add(new bsNavItem('#', 'Profile'))
+				.add(new bsNavItem('#', 'Messages'))
+				.setStacked(true)
+			)
+			.br()
+			
+			// justified
+			.add(new _p(this.navjustified_text()))
+			.add((new bsNav(navType.tab))
+				.add(new bsNavItem('#', 'Home', true))
+				.add(new bsNavItem('#', 'Profile'))
+				.add(new bsNavItem('#', 'Messages'))
+				.setJustified(true)
+			)
+			.br()
+			.add((new bsNav(navType.pills))
+				.add(new bsNavItem('#', 'Home', true))
+				.add(new bsNavItem('#', 'Profile'))
+				.add(new bsNavItem('#', 'Messages'))
+				.setJustified(true)
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Navbars
+			 *********************************************************/
+			.add(new _h2("Navbars"))
+			
+			.add(new _p(this.navbars_text()))
+			.add((new bsNavBar('cali*Bs'))
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-1')))
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-2')))
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-3')))
+				.addRightForm((new bsForm())
+					.addInput((new _input('text', 'search')).set('placeholder', 'Search'))
+					.add(new bsBtn(null, 'Button', "alert('Button clicked.');"))
+				)
+				.addRightMenuItem(new bsMenuItem(new _a('#', new _text('Right-Link'))))
+				.addRightText('Signed in as Austin Lehman')
+			)
+			.br()
+			
+			// Brand image and inverse.
+			.add(new _p(this.navbars_brand_text()))
+			.add((new bsNavBar(new bsBrand('cali-bs.png'), '/'))
+				.setInverse(true)
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-1')))
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-2')))
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-3')))
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Bread Crumbs
+			 *********************************************************/
+			.add(new _h2("Bread Crumbs"))
+			
+			.add(new _p(this.breadcrumbs_text()))
+			.add((new bsCrumb())
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Home')))
+				.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Documents')))
+				.addMenuItem(new bsMenuItem(new _text('My Doc'), true))
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Labels
+			 *********************************************************/
+			.add(new _h2("Labels"))
+			
+			.add(new _p(this.labels_text()))
+			.add(new _h1(new bsLabel('Label Inside H1')))
+			.add(new _h2(new bsLabel('Label Inside H2')))
+			.add(new _h3(new bsLabel('Label Inside H3')))
+			.add(new _h4(new bsLabel('Label Inside H4')))
+			.add(new _h5(new bsLabel('Label Inside H5')))
+			.add(new _h6(new bsLabel('Label Inside H6')))
+			.br()
+			
+			.add(new _p(this.labels_desc_text()))
+			.add(new bsLabel('Normal', bsDesc.normal)).text(' ')
+			.add(new bsLabel('Primary', bsDesc.primary)).text(' ')
+			.add(new bsLabel('Success', bsDesc.success)).text(' ')
+			.add(new bsLabel('Info', bsDesc.info)).text(' ')
+			.add(new bsLabel('Warning', bsDesc.warning)).text(' ')
+			.add(new bsLabel('Danger', bsDesc.danger)).br()
+			.br()
+			
+			
+			/**********************************************************
+			 * Badges
+			 *********************************************************/
+			.add(new _h2("Badges"))
+			
+			.add(new _p(this.badges_text()))
+			.br()
+			.add((new _a('#'))
+				.text('Inbox ')
+				.add(new bsBadge('10'))
+			).br().br()
+			.add((new bsBtn(null, '', '#', bsDesc.primary))
+				.text('Messages ')
+				.add(new bsBadge('1000'))
+			).br().br()
+			
+			
+			/**********************************************************
+			 * Jumbotron
+			 *********************************************************/
+			.add(new _h2("Jumbotron"))
+			
+			.add(new _p(this.jumbotron_text()))
+			.add((new bsJumbo('Tyler'))
+				.add(new _p(new _text('On a long enough timeline, the survival rate for everyone drops to zero.')))
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Alerts
+			 *********************************************************/
+			.add(new _h2("Alerts"))
+			
+			.add(new _p(this.alerts_text()))
+			.add(new bsAlert(bsDesc.success, "Well done, whatever you did was excellent."))
+			.add(new bsAlert(bsDesc.info, "Here's some information that you may not know about."))
+			.add(new bsAlert(bsDesc.warning, "This is to warn you that something bad may happen."))
+			.add(new bsAlert(bsDesc.danger, "Maybe you missed the warning before but now we have a crisis."))
+			.br()
+			
+			.add(new _p(this.alerts_links_text()))
+			.add((new bsAlert(bsDesc.success, "Well done, whatever you did was excellent. "))
+				.addLink(new _a('#', 'Click here for your award!'))
+			)
+			.add((new bsAlert(bsDesc.danger, "Maybe you missed the warning before but now we have a crisis. "))
+				.addLink(new _a('#', 'Click here for help!'))
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Tables
+			 *********************************************************/
+			.add(new _h2("Tables"))
+			
+			.add(new _p(this.tables_text()))
+			.add((new bsTable())
+				.add((new bsThead())
+					.add((new bsTr())
+						.add(new bsTh('Name'))
+						.add(new bsTh('Location'))
+					)
+				)
+				.add((new bsTbody())
+					.add((new bsTr())
+						.add(new bsTd(new _text('Austin')))
+						.add(new bsTd(new _text('California')))
+					)
+					.add((new bsTr())
+						.add(new bsTd(new _text('Tyler')))
+						.add(new bsTd(new _text('Imagination')))
+					)
+				)
+				.setBordered()
+				.setHover()
+				.setCondensed()
+			)
+			.br()
+			
+			.add(new _p(this.tables_desc_text()))
+			.add((new bsTable())
+				.add((new bsThead())
+					.add((new bsTr())
+						.add(new bsTh('Name'))
+						.add(new bsTh('Location'))
+					)
+				)
+				.add((new bsTbody())
+					.add((new bsTr())
+						.add(new bsTd(new _text('Austin')))
+						.add(new bsTd(new _text('California')))
+						.setBsDesc(bsDesc.info)
+					)
+					.add((new bsTr())
+						.add(new bsTd(new _text('Tyler')))
+						.add((new bsTd(new _text('Imagination'))).setBsDesc(bsDesc.danger))
+					)
+				)
+				.setBordered()
+				.setHover()
+				.setCondensed()
+			)
+			.br()
+			
+			
+			/**********************************************************
+			 * Grid
+			 *********************************************************/
+			.add(new _h2("Grid"))
+			
+			.add(new _p(this.grid_text()))
+			.add((new bsRow())
+				.addCell(
+					new _div((new _p())
+							.add(new _b(new _text('Paragraph 1 - Width 12'))).br()
+							.add(filler.lorem_p1())
+						)
+				, 12)
+			)
+			.add((new bsRow())
+				.addCell(
+					new _div((new _p())
+							.add(new _b(new _text('Paragraph 2 - Width 4'))).br()
+							.add(filler.lorem_p2())
+						)
+				, 4)
+				.addCell(
+					new _div((new _p())
+							.add(new _b(new _text('Paragraph 3 - Width 4'))).br()
+							.add(filler.lorem_p3())
+						)
+				, 4)
+				.addCell(
+					new _div((new _p())
+							.add(new _b(new _text('Paragraph 4 - Width 4'))).br()
+							.add(filler.lorem_p4())
+						)
+				, 4)
+			)
+			.add((new bsRow())
+				.addCell(
+					new _div((new _p())
+							.add(new _b(new _text('Paragraph 5 - Width 12'))).br()
+							.add(filler.lorem_p5())
+						)
+				, 12)
+			)
+			
+			
+			.br().br().br().br().br()
+		;
+		
+		// Add the container to the body of the page.
+		this.body.add(ctr);
+	}
+	
+	/**********************************************************
+	 * Helper text methods.
+	 *********************************************************/
+	private comp_text()
+	{
+		res = new _p("
+			CaliBS implements a number of the standard Bootstrap components. CaliBs 
+			classes extend HTML objects and apply Bootstrap CSS to provide a collection 
+			of simple to use objects in Cali-Lang. Below are examples of the available 
+			components and some code demonstrating how to use each component in Cali-Lang.
+		");
+		return res;
+	}
+	
+	private btn_text()
+	{
+		res = new _p("
+			Buttons come in a variety of formats. Basic colors can be set by using the 
+			button description. Button sizes can be changed, they can be disabled, glyphs can be 
+			applied, and they can be set as block level elements.
+		");
+		res.br().br();
+		res.text("
+			Below in the comments is the bsBtn constructor which is used to create a new 
+			button object. You can set the Glyph to be applied to the button. (See Glyphs page
+			for details.) Set the text for the button, the behavior on click, and the button 
+			description. The button descrption is from the bsDesc enum which sets the 
+			type of Bootstrap button. Options are normal, primary, success, info, warning, 
+			danger, and link. Examples of each button description are shown below the code section.
+		");
+		res.add(new bsPre(new _text(
+"""
+// Constructor:
+// bsBtn(string Glyph = null, string Text = null, string OnClick = '#', string BsDesc = null)
+
+normal = new bsBtn(null, 'Normal', '#', bsDesc.normal);
+primary = new bsBtn(null, 'Primary', '#', bsDesc.primary);
+success = new bsBtn(null, 'Success', '#', bsDesc.success);
+info = new bsBtn(null, 'Info', '#', bsDesc.info);
+warning = new bsBtn(null, 'Warning', '#', bsDesc.warning);
+danger = new bsBtn(null, 'Danger', '#', bsDesc.danger);
+link = new bsBtn(null, 'Link', '#', bsDesc.link);
+"""
+		)));
+		return res;
+	}
+	
+	private btn_size_text()
+	{
+		res = new _p("
+			Buttons come in 4 different sizes. The button class extends bsSizable class 
+			which provides methods for setting/getting size of an object. The standard Bootstrap 
+			sizes are implemented in an enum called bsSize and available options are xs, sm, md, 
+			and lg. In the code below we create a new button then set all available sizes.
+		");
+		res.add(new bsPre(new _text(
+"""
+btn = new bsBtn(null, 'Sizes', '#', bsDesc.primary);
+btn.setSize(bsSize.xs)		// extra small
+btn.setSize(bsSize.sm)		// small
+btn.setSize(bsSize.md)		// medium
+btn.setSize(bsSize.lg)		// large
+"""
+		)));
+		return res;
+	}
+	
+	private btn_active_dis_text()
+	{
+		res = new _p("
+			Buttons can be enabled and disabled. By deafult buttons are 
+			enabled. To disable a button use the setDisabled method shown 
+			below.
+		");
+		res.add(new bsPre(new _text(
+"""
+btn = new bsBtn(null, 'Disabled Button');
+btn.setDisabled(true);
+"""
+		)));
+		return res;
+	}
+	
+	private btn_glyph_text()
+	{
+		res = new _p("
+			Buttons can easily have glyphs attached to them. Simply provide 
+			the glyph name as the first argument to the bsBtn constructor. You 
+			can also set the icon for the button with the setIcon setter 
+			method. Glyphs are provided in the glyph enum. See the Glyphs 
+			page for a list of all glyphs and example usage.
+		");
+		res.add(new bsPre(new _text(
+"""
+btn = new bsBtn(glyph.magnet, 'Glyph with text');		// with text
+btn = new bsBtn(glyph.fire);					// without text
+btn.setIcon(glyph.barcode);					// setter
+"""
+		)));
+		return res;
+	}
+	
+	private btn_block_text()
+	{
+		res = new _p("
+			Buttons can also be set as block level elements.
+		");
+		res.add(new bsPre(new _text(
+"""
+btn = new bsBtn(null, 'Block Example');
+btn.setBlock(true);		// block level element
+btn.setBlock(false);		// not block level element
+"""
+		)));
+		return res;
+	}
+	
+	private toolbar_text()
+	{
+		res = new _p("
+			Toolbars are great for holding buttons and button groups. In the 
+			button examples above we are using the bsToolbar class already. 
+			Without a container like toolbar, buttons would be stacked one on 
+			top of another like this.
+		");
+		return res;
+	}
+	
+	private toolbar_desc_text()
+	{
+		res = new _p("
+			The bsToolbar container is great for housing buttons and button 
+			groups. The bsToolbar class constructor taks a variable number of 
+			button or button groups as arguments. You may also use the add 
+			method later to add new buttons or button groups. Button groups 
+			are covered in detail in a following section.
+		");
+		res.add(new bsPre(new _text(
+"""
+// Constructor:
+// public bsToolbar(object ...)
+
+toolbar = new bsToolbar(
+	new bsBtn(null, 'Normal', '#', bsDesc.normal),
+	new bsBtn(null, 'Primary', '#', bsDesc.primary),
+	new bsBtn(null, 'Success', '#', bsDesc.success)
+);
+
+toolbar = new bsToolbar(
+	new bsBtnGroup(
+		new bsBtn(null, '1'),
+		new bsBtn(null, '2'),
+		new bsBtn(null, '3')
+	),
+	new bsBtnGroup(
+		new bsBtn(null, '4'),
+		new bsBtn(null, '5'),
+		new bsBtn(null, '6')
+	),
+	new bsBtnGroup(
+		new bsBtn(null, '7'),
+		new bsBtn(null, '8')
+	)
+);
+"""
+		)));
+		return res;
+	}
+	
+	private dropdown_text()
+	{
+		res = new _p("
+			To create a dropdown we use the bsDropdown class. The bsDropdown class 
+			extends the bsBtn class, so any method that applies to bsBtn also applies 
+			to bsDropdown. The first 
+			argument is the text for the drop down and the second is the dropdown 
+			description. (See bsDesc enum for options.) Below the constructor, 
+			we use the addMenuLink method to add new menu items with the provided 
+			text and href. You can set the menu header with addMenuHdr method and 
+			you can add a divider with addMenuDiv method. We can also use the 
+			setDropUp method to make the dropdown into a dropup. If you want to set 
+			an icon for the dropdown you can use the setIcon method that's inherited 
+			from bsBtn. Finally you can make the dropdown a split button with the 
+			button clickable and the dropdown split with the caret to the right.
+		");
+		res.add(new bsPre(new _text(
+"""
+// Constructor
+// public bsDropdown(string BtnText, string BsDesc = null)
+
+dropdn = new bsDropdown('Actions', bsDesc.primary);
+dropdn
+	.addMenuHdr('Menu Header Here')
+	.addMenuLink('One', '#')
+	.addMenuLink('Two', '#')
+	.addMenuDiv()
+	.addMenuLink('Three', '#')
+;
+dropdn.setDropUp(true);
+dropdn.setIcon(glyph.exclamation_sign);
+
+// to make split button
+dropdn.setUseSplitBtn(true)
+dropdn.setSplitBtnOnClick("alert('Dropdown button clicked!');")
+"""
+		)));
+		return res;
+	}
+	
+	private btn_group_text()
+	{
+		res = new _p("
+			Button groups allow you to group a set of buttons together horizontally 
+			or vertically. The constructor for the bsBtnGroup object takes a list 
+			of object of type bsBtn to add to the button group. 
+		");
+		res.add(new bsPre(new _text(
+"""
+// Constructor:
+// public bsBtnGroup(object ...)
+
+btnGrp = new bsBtnGroup(
+	new bsBtn(null, 'One'),
+	new bsBtn(null, 'Two'),
+	new bsBtn(null, 'Three')
+);
+"""
+		)));
+		return res;
+	}
+	
+	private btn_group_sizes_text()
+	{
+		res = new _p("
+			The bsBtnGroup class extends bsSizable and inherits the setSize 
+			and getSize methods. Button groups can be sized like other 
+			components with the options in the bsSize enum.
+		");
+		res.add(new bsPre(new _text(
+"""
+btnGrp.setSize(bsSize.xs);
+"""
+		)));
+		return res;
+	}
+	
+	private btn_group_align_text()
+	{
+		res = new _p("
+			The button group orientation can be set with the setVertical 
+			method. Providing true as the argument will set the button 
+			group as vertical. The default is horizontal.
+		");
+		res.add(new bsPre(new _text(
+"""
+btnGrp.setVertical(true);
+"""
+		)));
+		return res;
+	}
+	
+	private inputgroup_text()
+	{
+		res = new _p("
+			Bootstrap input groups let you extend existing form inputs to 
+			provide additional context and functionality. Input groups apply 
+			to a single form input. Below are threee basic examples of 
+			input groups using the caliBs bsInGroup class.
+		");
+		res.br().br();
+		res.add(new _text("
+			The first code example below takes the input description as 
+			a string and input 'name' and 'placeholder' text. You may optionally 
+			set the input id as the 4th argument. In the second example we 
+			use the final optional argument in the constructor and set to true 
+			to reverse the order of the text/input. In 
+			the last example we create a new bsInGroup using the constructor 
+			for the left description and input section and then call the addText 
+			method after to add the right description text.
+		"));
+		res.add(new bsPre(new _text(
+"""
+// Constructor:
+// bsInGroup(string Text = null, string InputName = null, string PlaceHolder = null, string Id = null, bool Reverse = false)
+
+ingrp = new bsInGroup('@', 'email_address', 'Email Address');
+
+ingrp = new bsInGroup('.cali-lang.com', 'sub_domain', 'Sub Domain', null, true);
+
+ingrp = new bsInGroup('$', 'cost', 'USD');
+ingrp.addText('.00');
+"""
+		)));
+		return res;
+	}
+	
+	private inputgroup_note_text()
+	{
+		res = new _p();
+		res.add(new _b(new _text("Note: ")));
+		res
+			.text("
+				According to Bootstrap documentation multiple add-ons on 
+				a single side aren't supported currently. Also multiple 
+				form controls within a single imput group aren't supported. 
+				For details see Bootstrap documentation for input groups 
+				at 
+			")
+			.add((new _a('http://getbootstrap.com/components/#input-groups', new _text('http://getbootstrap.com/components/#input-groups'))).set('target', '_blank'))
+			.text(".")
+		;
+		return res;
+	}
+	
+	private inputgroup_sizes_text()
+	{
+		res = new _p("
+			The bsInGroup class extends bsSizable and can have sizes 
+			applied with the setSize method. Below are examples of setting 
+			size of an input group for small, medium, and large. See bsSize 
+			enum for available sizes.
+		");
+		res.br().br();
+		res.add(new _b(new _text("Note: ")));
+		res.text("
+			Bootstrap doesn't currently support the extra small size (xs).
+		");
+		res.add(new bsPre(new _text(
+"""
+ingrp = new bsInGroup('#', 'phone_num', 'Small');
+
+ingrp.setSize(bsSize.sm);
+ingrp.setSize(bsSize.md);
+ingrp.setSize(bsSize.lg);
+"""
+		)));
+		return res;
+	}
+	
+	private inputgroup_check_text()
+	{
+		res = new _p("
+			Input groups can also have checkbox and radio button parts 
+			to them. In the first example below we create a new bsInGroup 
+			object with no arguments, then we add a check box and the text input 
+			after. In the second example we do the same but for a radio 
+			button instead. The arguements for addCheckBox and addRadioBtn 
+			are the input ID for that item and then true for checked or 
+			false for not checked.
+		");
+		res.add(new bsPre(new _text(
+"""
+ingrp = new bsInGroup();
+
+ingrp.addCheckBox('t_cb', true);
+ingrp.addInput('t_un', 'Twitter User Name', 'twitter_handle');
+
+ingrp.addRadioBtn('c_rb', false);
+ingrp.addInput('c_str', 'Color #XXXXXX', 'color');
+"""
+		)));
+		return res;
+	}
+	
+	private inputgroup_button_text()
+	{
+		res = new _p("
+			Input groups can be packages with buttons. The button can 
+			be added before or after the input.
+		");
+		res.add(new bsPre(new _text(
+"""
+ingrp = new bsInGroup();
+
+ingrp.addButton(new bsBtn(glyph.search, 'Search', "alert('Starting search ...');"));
+ingrp.addInput('tid', 'Search Text');
+"""
+		)));
+		return res;
+	}
+	
+	private inputgroup_dropdowns_text()
+	{
+		res = new _p("
+			Input groups can be packaged with dropdowns as well. The first example 
+			below demonstrates using a single dropdown with an input group. The 
+			second shows how to use button with divider dropdown. Note that when 
+			using the divided dropdown that the add method acutally calls the 
+			toString method and constructs HTML for the object then. This means 
+			that calls to other methods will not modify the object.
+		");
+		res.add(new bsPre(new _text(
+"""
+ingrp = new bsInGroup();
+
+ingrp.addButton(
+	(new bsDropdown('Actions'))
+		.addMenuLink('Action 1', '#')
+		.addMenuLink('Action 2', '#')
+		.addMenuLink('Action 3', '#')
+);
+ingrp.addInput('tid', 'Action String');
+
+
+ingrp.addButton(
+	(new bsDropdown('Actions'))
+		.addMenuLink('Action 1', '#')
+		.addMenuLink('Action 2', '#')
+		.addMenuLink('Action 3', '#')
+		.setUseSplitBtn(true)
+		.setSplitBtnOnClick("alert('Dropdown button clicked!');")
+);
+ingrp.addInput('tid', 'Action String');
+"""
+		)));
+		return res;
+	}
+	
+	private navs_text()
+	{
+		res = new _p("
+		Nav sections can be used to group main links for a page or section. In order 
+		to switch the content within a section when a nav link is clicked javascript 
+		must be used.
+		");
+		res.add((new _a("http://getbootstrap.com/components/#nav", new _text("See the Navs section within the bootstrap components page for details"))).set('target', '_blank'));
+		res.text('.');
+		res.add(new bsPre(new _text(
+"""
+nv = new bsNav(navType.tab);
+
+// bsNavItem constructor: bsNavItem(string Href, string Text, bool Active = false)
+nv.add(new bsNavItem('#', 'Home', true));
+nv.add(new bsNavItem('#', 'Profile'));
+nv.add(new bsNavItem('#', 'Messages'));
+"""
+		)));
+		return res;
+	}
+	
+	private navpills_text()
+	{
+		res = new _p("
+		You can set the nav to be displayed as pils by providing 
+		the navType.pills enum value to the bsNav constructor.
+		");
+				res.add(new bsPre(new _text(
+"""
+nv = new bsNav(navType.pills);
+"""
+		)));
+		return res;
+	}
+	
+	private navpills_stacked_text()
+	{
+		res = new _p("
+		You can set the nav to be stacked as well by using the setStacked 
+		method. Below is an example of a stacked nav section.
+		");
+				res.add(new bsPre(new _text(
+"""
+nv = new bsNav(navType.pills);
+...
+nv.setStacked(true);
+"""
+		)));
+		return res;
+	}
+	
+	private navjustified_text()
+	{
+		res = new _p("
+		Navs can be justified for rendering on screens greater than 768 px 
+		wide. On smaller screens the nav will be rendered stacked.
+		");
+				res.add(new bsPre(new _text(
+"""
+nv = new bsNav(navType.pills);
+...
+nv.setJustified(true);
+"""
+		)));
+		return res;
+	}
+	
+	private navbars_text()
+	{
+		res = new _p("
+		Navbars are responsive components that can be placed at the top 
+		of your application or web page. They can be fixed to the top or 
+		bottom and can have various components in them. Below is a navbar 
+		example with various components. Navbars can have a brand name 
+		as text or an image. They can have links, plain text, and forms 
+		with form components such as inputs and buttons. One exception to 
+		using setFixedTop is that in order to format properly you need to 
+		use the setFixedTopNav method in bsPage or set the page body 
+		style. See below for details.
+		");
+		res.add(new bsPre(new _text(
+"""
+// bsNavBar constructor: bsNavBar(object Content = null, string BrandHref = null)
+nb = new bsNavBar('cali*Bs');
+
+// Add menu items to left side of the navbar.
+nb.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-1')));
+nb.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-2')));
+nb.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Link-3')));
+
+// Add a form with search input and button to the right 
+// side of the navbar.
+nb.addRightForm((new bsForm())
+	.addInput((new _input('text', 'search')).set('placeholder', 'Search'))
+	.add(new bsBtn(null, 'Button', "alert('Button clicked.');"))
+);
+
+// Add menu item to the right side of the navbar.
+nb.addRightMenuItem(new bsMenuItem(new _a(new _text('#'), 'Right-Link')));
+
+// Add some plain text to the right side of the navbar.
+nb.addRightText('Signed in as Austin Lehman');
+
+// You can use these two methods to set the navbar to top or bottm of page.
+// setFixedTop(bool FixedTop) 
+// setFixedBottom(bool FixedTop) 
+
+// For setFixedTop you may also need to set setFixedTopNav() in bsPage 
+// object or apply the following CSS to the body element of the page.
+// min-height: 2000px; padding-top: 70px;
+"""
+		)));
+		return res;
+	}
+	
+	private navbars_brand_text()
+	{
+		res = new _p("
+		Below is an example of a navbar with a brand image and inverted 
+		colors.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+/*
+ * You may provide the src of a brand image and href for when clicked 
+ * in the bsNavBar constructor to set a brand image.
+ */
+nb = new bsNavBar(new bsBrand('cali-bs.png'), '/');
+
+// Setting inverse to true inverts the colors of the navbar.
+nb.setInverse(true);
+"""
+		)));
+		
+		return res;
+	}
+	
+	
+	private breadcrumbs_text()
+	{
+		res = new _p("
+		Breadcrumbs are great for showing location within a hierarchy. 
+		The code below illustrates how to create a breadcrumb. 
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// bsCrumb constructor: bsCrumb()
+bc = new bsCrumb();
+
+// Add a couple menu item links.
+bc.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Home')));
+bc.addMenuItem(new bsMenuItem(new _a(new _text('#'), 'Documents')));
+
+// Add the active menu item with just text.
+bc.addMenuItem(new bsMenuItem(new _text('My Doc'), true));
+"""
+		)));
+		
+		return res;
+	}
+	
+	private labels_text()
+	{
+		res = new _p("
+		Labels are a great way to tag text. They are simply a span tag 
+		with CSS applied. Labels can be added to many other html components. 
+		Below we use the standard label with varying H1 tags.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// label constructor: label(string Text, string BsDesc = 'default')
+lbl = new label('Label Text Here');
+
+// Example of labels within heading tags.
+lbl = new _h1(new bsLabel('Label Inside H1'))
+lbl = new _h2(new bsLabel('Label Inside H2'))
+lbl = new _h3(new bsLabel('Label Inside H3'))
+lbl = new _h4(new bsLabel('Label Inside H4'))
+lbl = new _h5(new bsLabel('Label Inside H5'))
+lbl = new _h6(new bsLabel('Label Inside H6'))
+"""
+		)));
+		
+		return res;
+	}
+	
+	
+	private labels_desc_text()
+	{
+		res = new _p("
+		Labels can have different background colors as well. See bsDesc 
+		enum for available options.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// Example of label background colors.
+lbl = new bsLabel('Normal', bsDesc.normal);
+lbl = new bsLabel('Primary', bsDesc.primary);
+lbl = new bsLabel('Success', bsDesc.success);
+lbl = new bsLabel('Info', bsDesc.info);
+lbl = new bsLabel('Warning', bsDesc.warning);
+lbl = new bsLabel('Danger', bsDesc.danger);
+"""
+		)));
+		
+		return res;
+	}
+	
+	private badges_text()
+	{
+		res = new _p("
+		Badges are span tags with CSS applied. Badges can be added to 
+		many other html components. Below is an example of using a badge 
+		with an anchor and a button.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// label constructor: bsBadge(string Text)
+bdg = new bsBadge('3');
+
+// Example of a badge within a anchor.
+link = new _a('#');
+link.text('Inbox ');
+link.add(new bsBadge('10'));
+
+// Example of a badge within a button.
+btn = new bsBtn(null, '', '#', bsDesc.primary);
+btn.text('Messages ');
+btn.add(new bsBadge('1000'));
+"""
+		)));
+		
+		return res;
+	}
+	
+	private jumbotron_text()
+	{
+		res = new _p("
+		Jumbotron is a billboard type component for things you want to 
+		stand out on your page. The constuctor takes an optional string with 
+		the title which is set in the Jumbotron div in an H1 element. See the 
+		example below for usage.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// jumbotron constructor: bsJumbo(string Title = null)
+tron = new bsJumbo('Tyler');
+
+// Add a new paragraph element with our text.
+tron.add(new _p(new _text('On a long enough timeline, the survival rate for everyone drops to zero.')))
+"""
+		)));
+		
+		return res;
+	}
+	
+	
+	private alerts_text()
+	{
+		res = new _p("
+		Alerts can be useful to convey important information to the 
+		reader. Alerts can be set to success, info, warning, or danger 
+		from the bsDesc enum. The default alert description is bsDesc.success 
+		if not provided in the constructor.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// alert constructor: bsAlert(string BsDesc = 'success', string Text = null)
+alrt = new bsAlert(bsDesc.success, "Well done, whatever you did was excellent.");
+alrt = new bsAlert(bsDesc.info, "Here's some information that you may not know about.");
+alrt = new bsAlert(bsDesc.warning, "This is to warn you that something bad may happen.");
+alrt = new bsAlert(bsDesc.danger, "Maybe you missed the warning before but now we have a crisis.");
+"""
+		)));
+		
+		return res;
+	}
+	
+	private alerts_links_text()
+	{
+		res = new _p("
+		You can add links to alerts by supplying an anchor object (_a) 
+		to the bsAlert.addLink method.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// Use the addLink method to add anchor objects.
+alrt = new bsAlert(bsDesc.success, "Well done, whatever you did was excellent. ");
+alrt.addLink(new _a('#', 'Click here for your award!'));
+
+alrt = new bsAlert(bsDesc.danger, "Maybe you missed the warning before but now we have a crisis. ");
+alrt.addLink(new _a('#', 'Click here for help!'));
+"""
+		)));
+		
+		return res;
+	}
+	
+	private tables_text()
+	{
+		res = new _p("
+		Tables can be styled as well. CaliBs implements the table, thead, 
+		tbody, tr, th, and td HTML tags within the bsTable, bsThead, bsTBody, 
+		bsTr, bsTh, and bsTd classes. The most important class to use is the 
+		bsTable which applies most of the bootstrap style. For the rest of 
+		the classes you can use the base HTML classes (_thead, _tbody, _tr, 
+		_th, and _td) if you'd like. The bs equivelants are extended from these 
+		base classes and only the bsTr and bdTd classes implement additional 
+		methods. The bsTr and bsTd classes implement an additional setBsDesc 
+		method to set individual row and cell colors.
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+// Constructor:
+// bsTable(string id = null)
+tbl = new table();
+
+// Set our table to have border/grid lines, mouse hover and condensed.
+tbl.setBordered();
+tbl.setHover();
+tbl.setCondensed();
+
+// Create table head section and add it to the table.
+head = new bsThead();
+tbl.add(head);
+
+// Create table head row and add to head.
+hrow = new bsTr();
+hrow.add.add(new bsTh('Name')).add(new bsTh('Location'));
+head.add(hrow);
+
+// Create table body section and add to table.
+body = new bsTbody();
+tbl.add(body);
+
+// Create row 1.
+row1 = new bsTr();
+row1.add(new bsTd(new _text('Austin'))).add(new bsTd(new _text('California')));
+
+// Create row 2.
+row2 = new bsTr();
+row2.add(new bsTd(new _text('Tyler'))).add(new bsTd(new _text('Imagination')));
+
+// Add row 1 and 2 to body section.
+body.add(row1).add(row2);
+"""
+		)));
+		
+		return res;
+	}
+	
+	private tables_desc_text()
+	{
+		res = new _p("
+		For bsTr and bsTd objects, you can use the setBsDesc method with 
+		one of the values from bsDesc to apply style to a table row or cell. 
+		All values from bsDesc are valid; however, normal, primary, and link 
+		all apply the default highlighting color. 
+		");
+		
+		res.add(new bsPre(new _text(
+"""
+...
+
+// Create row 1 and then apply info style to the entire row.
+row1 = new bsTr();
+row1.add(new bsTd(new _text('Austin'))).add(new bsTd(new _text('California')));
+row1..setBsDesc(bsDesc.info);
+
+...
+
+// Create row 2.
+row2 = new bsTr();
+row2.add(new bsTd(new _text('Tyler')));
+
+// Create table cell object and apply danger to it.
+tcell = new bsTd(new _text('Imagination'));
+tcell.setBsDesc(bsDesc.danger);
+row2.add(tcell);
+
+...
+"""
+		)));
+		
+		return res;
+	}
+	
+	private grid_text()
+	{
+		res = new _p("
+		Grids can be used to break content up into sections within a page
+		that format properly on both desktop and mobile devices. Below are 
+		5 paragraphs of filler text that are formatted within a grid. The 
+		caliBs classes involved are bsRow, bsHbox, and bsVbox. bsRow defines 
+		a row within the grid system and bsHbox and bsVbox are helper 
+		classes that create either a horizontal or vertical box for placing 
+		elements.
+		");
+		
+		res.br().br().text("
+		When viewing on desktop you will see paragraph 1 and 5 at the top 
+		and bottom that span the entire width of the page with paragraphs 
+		2, 3, and 4 in the center row. When viewing on a small screen device 
+		such as a mobile phone all paragraphs 1-5 will be stacked in order 
+		vertically.
+		");
+		
+		res.br().br().text("
+		The constructor for bsRow and bsHbox take an optional size 
+		argument. The default size is bsSize.sm. See bsSize enum for 
+		available options. 
+		")
+		.add((new _a('http://www.w3schools.com/bootstrap/bootstrap_grid_system.asp', 'Click here for details about the bootstrap grid system')).set('target', '_blank'))
+		.text('.');
+		
+		res.add(new bsPre(new _text(
+"""
+// Constructor:
+// bsRow(string BsSize = "sm")
+// Create a new bsRow object.
+row1 = new bsRow();
+
+// Create our pragraph text to add to the row.
+para1 = new _p();
+para1.add(new _b(new _text('Paragraph 2 - Width 4'))).br();
+para1.add(filler.lorem_p2());		// method gets our filler text
+
+// Add a new div with our paragraph text with 12 width for our div.
+row1.addCell(new _div(para1), 12);
+
+...
+
+// Similarly for rows 2, 3 and 4.
+row2.addCell(new _div(para2), 4);
+row3.addCell(new _div(para3), 4);
+row4.addCell(new _div(para4), 4);
+
+...
+
+// And row 5 is just like row 1.
+row5.addCell(new _div(para5), 12);
+"""
+		)));
+		
+		return res;
+	}
+	
+}

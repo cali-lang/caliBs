@@ -1,0 +1,56 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+include net.html.caliBs.bsPages;
+include net.html.caliBs.bsComponents;
+include net.html.caliBs.bsGlyphs;
+
+/*
+ * Very basic example of a cali-lang bootstrap page. The bsPage constructor 
+ * takes an optional title string. Below we create a new bootstrap container
+ * div and add a bsJumbo object with new h1 and p blocks to it. Then add the 
+ * container to the page body.
+ */
+class bsHello : bsPage
+{
+	title = "caliBs Hello World Page";
+	
+	/**
+	 * Constructor builds the hello page.
+	 */
+	public bsHello()
+	{
+		// Call parent constructor.
+		this.bsPage(this.title);
+		
+		// Create a new bootstrap container div. (defined in bsComponents)
+		ctr = new bsContainer();
+		
+		// Create a jumbotron object and add a paragraph and button.
+		tron = new bsJumbo(this.title);
+		tron
+			.add(new _p("This is a very basic example of using caliBs to create responsive web pages."))
+			.add(new bsBtn(glyph.tree_conifer, 'click-me', "alert('You clicked the button!');", bsDesc.primary))
+		;
+		
+		// Add our jumbotron to the page.
+		ctr.add(tron);
+		
+		// add the container to the body of the page.
+		this.body.add(ctr);
+	}
+}

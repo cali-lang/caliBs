@@ -1,0 +1,157 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+include file;
+
+include net.html.caliBs.bsPages;
+include net.html.caliBs.bsComponents;
+include net.html.caliBs.bsGlyphs;
+
+include examples.fillerText;
+
+/**
+ * Another example page that features a navbar, grid system and 
+ * bsPre section with the page source code.
+ */
+class bsExampleMenu : bsPage
+{
+	// Page title.
+	title = "caliBs Menu/Grid Example";
+	
+	/**
+	 * bsExampleMenu constructor builds the page.
+	 */
+	public bsExampleMenu()
+	{
+		// Call bsPage constructor.
+		this.bsPage(this.title);
+		
+		// Create nav bar at top of page.
+		this.buildNavBar();
+		
+		// Create a new bootstrap container div. (defined in bsComponents)
+		ctr = new bsContainer();
+		
+		// Page title.
+		ctr.add(new _h1(new _text(this.title)));
+		
+		// Add grid.
+		this.buildGrid(ctr);
+		
+		/*
+		 * Read the source for this page from file and put it in a bsPre. 
+		 * The bsPre doesn't wrap text and instead scrolls right.
+		 */
+		ctr.add(new _h6(new _text('Source:')));
+		ctr.add(new bsPre(new _text(file.read('example/bsExampleMenu.ca'))));
+		
+		// Add the container to the body of the page.
+		this.body.add(ctr);
+	}
+	
+	/**
+	 * Creates a navbar and adds it to the page body at the 
+	 * top of the page.
+	 */
+	private buildNavBar()
+	{
+		// Create new navbar with brand string and set fixed to top of page.
+		nbar = new bsNavBar('My Brand!');
+		nbar.setFixedTop(true);
+		
+		// This is currnetly needed to have bootstrap properly format fixed to top navbar.
+		this.setFixedTopNav();
+		
+		// Add a few menu items.
+		nbar.addMenuItem(new bsMenuItem(new _a('#', new _text('About'))));
+		nbar.addMenuItem(new bsMenuItem(new _a('#', new _text('Our Product'))));
+		nbar.addMenuItem(new bsMenuItem(new _a('#', new _text('Contact'))));
+		
+		// Add a new form with search input and button.
+		nbar.addRightForm((new bsForm())
+			.addInput((new _input('text', 'search')).set('placeholder', 'Search Our Site'))
+			.add(new bsBtn(glyph.search, 'Search', "alert('Time to run a search.');"))
+		);
+		
+		// Add a settings link and some test information.
+		nbar.addRightMenuItem(new bsMenuItem(new _a('#', new _text('Settings'))));
+		nbar.addRightText('Signed in as Austin Lehman');
+		
+		// Add the navbar to the body of the page.
+		this.body.add(nbar);
+	}
+	
+	/**
+	 * Build the grid with two rows and add them to the provided container.
+	 */
+	private buildGrid(object ctr)
+	{
+		/*
+		 * First row in grid.
+		 */
+		row1 = new bsHbox(bsSize.lg);
+		
+		img1 = new _img('img1', 'Filler Image 1', 330);
+		row1
+			.addCell(new _div(img1), 4)
+			.addCell((new bsVbox())
+				.addCell(new _div(new _h2(new _text('This is the main section.'))))
+				.addCell(new _div(new _p(new _text(filler.lorem_p1()))))
+			, 8)
+		;
+		// Add first row to container.
+		ctr.add(row1);
+		ctr.br().br();
+		
+		
+		/*
+		 * Second row in grid
+		 */
+		row2 = new bsHbox(bsSize.lg);
+		
+		// Define 3 images for use in our second row.
+		img2 = new _img('img2', 'Filler Image 2', 330);
+		img3 = new _img('img3', 'Filler Image 3', 330);
+		img4 = new _img('img4', 'Filler Image 4', 330);
+		
+		/*
+		 * Add 3 bsVbox object to the row for our 3 columns. Each bsVbox 
+		 * has a title, image and then filler text.
+		 */
+		row2
+			.addCell((new bsVbox())
+				.addCell(new _div(new _h2(new _text('Left Column'))))
+				.addCell(new _div(img2))
+				.addCell(new _div(new _p(new _text(filler.lorem_p2()))))
+			, 4)
+			.addCell((new bsVbox())
+				.addCell(new _div(new _h2(new _text('Center Column'))))
+				.addCell(new _div(img3))
+				.addCell(new _div(new _p(new _text(filler.lorem_p3()))))
+			, 4)
+			.addCell((new bsVbox())
+				.addCell(new _div(new _h2(new _text('Right Column'))))
+				.addCell(new _div(img4))
+				.addCell(new _div(new _p(new _text(filler.lorem_p4()))))
+			, 4)
+		;
+		
+		// Add second row to the container.
+		ctr.add(row2);
+		
+	}
+}

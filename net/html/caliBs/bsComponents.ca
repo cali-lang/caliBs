@@ -1,0 +1,1441 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+include net.html.html;
+
+/**
+ * bsSize is an enum that defines the 4 available boostrap sizes. 
+ * (xs, sm, md, lg)
+ */
+enum bsSize
+{
+	xs;		// phones
+	sm;		// tablets
+	md;		// desktops
+	lg;		// large desktops
+}
+
+/**
+ * bsDesc class defines button/label description with default is default. 
+ * These can be used to apply set style for various types of bootstrap components.
+ */
+static class bsDesc
+{
+	public normal = "default";
+	public primary = "primary";
+	public success = "success";
+	public info = "info";
+	public warning = "warning";
+	public danger = "danger";
+	public link = "link";
+}
+
+/**
+ * navType enum defines the various nav types.
+ */
+enum navType
+{
+	tab;
+	pills;
+}
+
+/**
+ * The standard Bootstrap container div.
+ */
+class bsContainer : _div
+{
+	/** Constructor. */
+	public bsContainer() { this._div(null, '', 'container'); }
+}
+
+/**
+ * The standard Bootstrap fluid container div.
+ */
+class bsContainerFluid : _div
+{
+	/** Constructor */
+	public bsContainerFluid() { this._div(null, '', 'container-fluid'); }
+}
+
+/**
+ * The bsBrand class extends _img and provides a simple constructor 
+ * for working with brand images.
+ */
+class bsBrand : _img
+{
+	/**
+	 * Constructor takes a string with the Src for the brand image.
+	 */
+	public bsBrand(string Src)
+	{
+		this._img(Src, 'Brand', null, 20);
+	}
+}
+
+/**
+ * bsNavBar implements the Bootstrap navbar element. It supports adding 
+ * elements to the left and right side of the navbar as well as forms 
+ * and a brand image or text.
+ */
+class bsNavBar : _nav
+{
+	public brand = null;				// Needs to be an anchor.
+	public container = null;
+	
+	public collapseToggle = true;
+	public inverse = false;
+	public fixedTop = false;			// Fixed to top of page?
+	public fixedBottom = false;			// Fixed to bottom of page? If fixedTop is true, this isn't evaluated.
+	
+	public menuItems = [];
+	public rightMenuItems = [];
+	
+	public forms = [];
+	public rightForms = [];
+	
+	/**
+	 * Constructor creates a new nav bar. If plain text is provided in 
+	 * Content than the brand will be a link with that text. If a bsBrand 
+	 * object is passed to Content then the brand will be the image.
+	 * @p Content is either a string with the brand text or a bsBrand 
+	 * object.
+	 * @p BrandHref is a string with the HREF for the brand string or image.
+	 */
+	public bsNavBar(object Content = null, string BrandHref = null)
+	{
+		this._nav('', 'navbar');
+		this.brand = new _a(BrandHref, Content, null, 'navbar-brand');
+		
+		this.container = new bsContainerFluid();
+	}
+	
+	/**
+	 * Sets the inverse style property for the navbar.
+	 * @p Inverse is a bool with true for inverse.
+	 * @r this
+	 */
+	public setInverse(bool Inverse) { this.inverse = Inverse; return this; }
+	
+	/**
+	 * Gets the inverse style property for the navbar.
+	 * @r A bool with true for inverse.
+	 */
+	public getInverse() { return this.inverse; }
+	
+	/**
+	 * Sets the fixed to top flag for the navbar. Note that currently the 
+	 * page body style needs padding applied so that the rest of the page 
+	 * content doesn't start under the navbar.
+	 * @p FixedTop is a bool with true for fixed to top of page.
+	 */
+	public setFixedTop(bool FixedTop) { this.fixedTop = FixedTop; return this; }
+	
+	/**
+	 * Gets the fixed to top flag for the navbar.
+	 * @r A bool with true for fixed to top of page.
+	 */
+	public getFixedTop() { return this.fixedTop; }
+	
+	/**
+	 * Sets the fixed to bottom flag for the navbar.
+	 * @p FixedBottom is a bool with true for fixed to bottom.
+	 * @r this
+	 */
+	public setFixedBottom(bool FixedBottom) { this.fixedBottom = FixedBottom; return this; }
+	
+	/**
+	 * Gets the fixed to bottom flag for the navbar.
+	 * @r A bool with the flag for navbar fixed to bottom.
+	 */
+	public getFixedBottom() { return this.fixedBottom; }
+	
+	/**
+	 * Adds the provided menu item to the left side of the 
+	 * the navbar.
+	 * @p MenuItem is the menu item object to add.
+	 * @r this
+	 */
+	public addMenuItem(object MenuItem) { this.menuItems @= MenuItem; return this; }
+	
+	/**
+	 * Gets a list with the menu items for the left side of the navbar.
+	 * @r A list with the left navbar items.
+	 */
+	public getMenuItems() { return this.menuItems; }
+	
+	/**
+	 * Adds a menu item to the right side of the navbar.
+	 * @p MenuItem is a menu item to be added to the right 
+	 * side of the navbar.
+	 */
+	public addRightMenuItem(object MenuItem) { this.rightMenuItems @= MenuItem; return this; }
+	
+	/**
+	 * Gets a list of the right menu items.
+	 * @r A list with the right menu items.
+	 */
+	public getRightMenuItems() { return this.rightMenuItems; }
+	
+	/**
+	 * Adds some plain text as a menu item to the navbar. The 
+	 * method creates a new HTML p tag and adds the navbar-text 
+	 * class to it. It then adds it to menu items.
+	 * @p Text is a string with the text to add.
+	 * @r this
+	 */
+	public addText(string Text)
+	{
+		tp = new _p(new _text(Text));
+		tp.addClass('navbar-text');
+		this.menuItems @= tp;
+		return this;
+	}
+	
+	/**
+	 * Adds some plain text as a right menu item to the navbar. The 
+	 * method creates a new HTML p tag and adds the navbar-text 
+	 * class to it. It then adds it to the right menu items.
+	 * @p Text is a string with the text to add.
+	 * @r this
+	 */
+	public addRightText(string Text)
+	{
+		tp = new _p(new _text(Text));
+		tp.addClass('navbar-text');
+		this.rightMenuItems @= tp;
+		return this;
+	}
+	
+	/**
+	 * Adds a bsForm object to the navbar.
+	 * @p Form is a bsForm object to add to the navbar.
+	 * @r this
+	 */
+	public addForm(object Form) { this.forms @= Form; return this; }
+	
+	/**
+	 * Gets a list of the forms for the navbar.
+	 * @r A list with the forms for the navbar.
+	 */
+	public getForms() { return this.forms; }
+	
+	/**
+	 * Adds a bsForm object to the right side of the navbar.
+	 * @p Form is a bsForm object to add to the right navbar.
+	 * @r this
+	 */
+	public addRightForm(object Form) { this.rightForms @= Form; return this; }
+	
+	/**
+	 * Gets a list of the forms from the right side of the navbar.
+	 * @r A list with the forms for the right navbar.
+	 */
+	public getRightForms() { return this.rightForms; }
+	
+	/**
+	 * Overrides the toString method of the parent _nav object to 
+	 * implement some custom functionality.
+	 * @r A string with the HTML for the navbar.
+	 */
+	public toString()
+	{
+		if(this.inverse) { this.addClass('navbar-inverse'); }
+		else { this.addClass('navbar-default'); }
+		if(this.fixedTop) { this.addClass('navbar-fixed-top'); }
+		else if(this.fixedBottom) { this.addClass('navbar-fixed-bottom'); }
+	
+		hdr = new _div(null, null, 'navbar-header');
+		this.container.add(hdr);
+		if(this.brand) { hdr.add(this.brand); }
+		
+		if(this.collapseToggle)
+		{
+			tbtn = new _button('button', null, 'navbar-toggle');
+			tbtn.set('data-toggle', 'collapse');
+			tbtn.set('data-target', '#mainNavBar');
+			tbtn.add(new _span(null, null, 'icon-bar'));
+			tbtn.add(new _span(null, null, 'icon-bar'));
+			tbtn.add(new _span(null, null, 'icon-bar'));
+			hdr.add(tbtn);
+		}
+		
+		nbdiv = new _div();
+		this.container.add(nbdiv);
+		if(this.collapseToggle) { nbdiv.addClass('collapse navbar-collapse'); nbdiv.set('id', 'mainNavBar'); }
+		
+		if(#this.menuItems > 0)
+		{
+			ullst = new _ul(null, 'nav navbar-nav');
+			nbdiv.add(ullst);
+			for(mi : this.menuItems) { ullst.add(mi); }
+		}
+		
+		if(#this.forms > 0)
+		{
+			for(fm : this.forms)
+			{
+				fm.addClass('navbar-form');
+				fm.addClass('navbar-left');
+				nbdiv.add(fm);
+			}
+		}
+		
+		if(#this.rightMenuItems > 0)
+		{
+			ullst = new _ul(null, 'nav navbar-nav navbar-right');
+			nbdiv.add(ullst);
+			for(mi : this.rightMenuItems) { ullst.add(mi); }
+		}
+		
+		if(#this.rightForms > 0)
+		{
+			for(fm : this.rightForms)
+			{
+				fm.addClass('navbar-form');
+				fm.addClass('navbar-right');
+				nbdiv.add(fm);
+			}
+		}
+		
+		this.add(this.container);
+		
+		return this.toHtml();
+	}
+}
+
+/**
+ * bsForm extends _form class and provides functionality to set bootstrap 
+ * CSS for form inputs.
+ */
+class bsForm : _form
+{
+	/**
+	 * Constructor takes the form method, action, ID and class 
+	 * and calls parent constructor.
+	 * @p Method is a string with the form method (POST/GET). (Optional)
+	 * @p Action is a string with the action for the HTML form. (Optional)
+	 * @p Id is a string with the HTML element ID. (Optional)
+	 * @p Class is a string with the CSS classes for this form. (Optional)
+	 */
+	public bsForm(string Method = null, string Action = null, string Id = null, string Class = null)
+	{
+		this._form(Method, Action, Id, Class);
+	}
+	
+	/**
+	 * Adds an input to the form and applies the bootstrap form-control class.
+	 * @p Input is an object of class/subclass of _input to add to the form.
+	 * @r this
+	 */
+	public addInput(object Input)
+	{
+		if(Input instanceof '_input') { Input.addClass('form-control'); this.add(Input).text(' '); }
+		else { this.add(Input); }
+		return this;
+	}
+}
+
+/**
+ * bsMenuItem extends _li class and implements bootstrap menu item 
+ * functionality.
+ */
+class bsMenuItem : _li
+{
+	/**
+	 * Menu item constructor.
+	 * @p Content is a HTML object. (Optional)
+	 * @p Active is a bool with true for active and false for not. (Optional)
+	 */
+	public bsMenuItem(object Content = null, bool Active = false)
+	{
+		if(Active) { this._li(Content, null, 'active'); }
+		else { this._li(Content); }
+	}
+}
+
+/**
+ * bsMenuHdr extends _li class and implements bootstrap dropdown-header 
+ * CSS class.
+ */
+class bsMenuHdr : _li
+{
+	/**
+	 * bsMenuHdr constructor.
+	 * @p Text is a string with the Text for the menu header.
+	 */
+	public bsMenuHdr(string Text)
+	{
+		this._li(new _text(Text), null, 'dropdown-header');
+		this.set('role', 'presentation');
+	}
+}
+
+/**
+ * bsMenuDiv extends _li class and implements the boostrap menu divider.
+ */
+class bsMenuDiv : _li
+{
+	/**
+	 * bsMenuDiv constructor.
+	 */
+	public bsMenuDiv()
+	{
+		this._li(null, null, 'divider');
+		this.set('role', 'presentation');
+	}
+}
+
+/**
+ * bsSizable is a base class with functionality supporting setting/getting 
+ * sizes defined in bsSize. Default size is 'md'.
+ */
+class bsSizable
+{
+	public size = 'md';
+	
+	/**
+	 * Sets the size for this component.
+	 * @p Size is a string with the size. (Defined in bsSize)
+	 * @r this
+	 */
+	public setSize(string Size) { this.size = Size; return this; }
+	
+	/**
+	 * Gets the size for this component.
+	 * @r A string with the size. (Defined in bsSize)
+	 */
+	public getSize() { return this.size; }
+}
+
+/**
+ * bsBtn class extends _button and bsSizable. It implements the bootstrap 
+ * button functionality. 
+ */
+class bsBtn : _button, bsSizable
+{
+	public icon = null;
+	public text = null;
+	public btnDesc = 'default';
+	public disabled = false;
+	public block = false;
+	
+	/**
+	 * Constructor takes optional glyph string, text, on-click hander and bsDesc 
+	 * object.
+	 * @p Glyph is a string with the glyph ID. (Optional)
+	 * @p Text is a string with the text for the button.
+	 * @p OnClick is a string with the JavaScript onclick handler.
+	 * @p BsDesc is a string with the description. (Defined in bsDesc)
+	 */
+	public bsBtn(string Glyph = null, string Text = null, string OnClick = '#', string BsDesc = null)
+	{
+		this._button('button', '', 'btn');
+		this.icon = Glyph;
+		this.text = Text;
+		this.set('onClick', OnClick);
+		
+		this.size = null;								// no size to begin with
+		if(BsDesc) { this.btnDesc = BsDesc; }
+	}
+	
+	/**
+	 * Sets the icon for the button with the provided glyph string.
+	 * @p Glyph is a string with the id of the glyph.
+	 * @r this
+	 */
+	public setIcon(string Glyph) { this.icon = Glyph; return this; }
+	
+	/**
+	 * Gets the glyph icon string for the button.
+	 * @r A string with the glyph icon that's set or null if not set.
+	 */
+	public getIcon() { return this.icon; }
+	
+	/**
+	 * Sets the text for the button.
+	 * @p Text is the text for the button.
+	 * @r this
+	 */
+	public setText(string Text) { this.text = Text; return this; }
+	
+	/**
+	 * Gets the text for the button.
+	 * @r A string with text for the button.
+	 */
+	public getText() { return this.text; }
+	
+	/**
+	 * Set button description. (See bsDesc for options.)
+	 * @p BsDesc is a string with button description. (bsDesc)
+	 * @r this
+	 */
+	public setBtnDesc(string BsDesc = 'default') { this.btnDesc = BsDesc; return this; }
+	
+	/**
+	 * Gets the button description. (See bsDesc for options.)
+	 * @r A string with the button description. (bsDesc)
+	 */
+	public getBtnDesc() { return this.btnDesc; }
+	
+	/**
+	 * Sets the button to disabled/enabled. Providing a bool value of 
+	 * true sets it as disabled.
+	 * @p Disabled is a bool with true for disabled and false for enabled.
+	 * @r this
+	 */
+	public setDisabled(bool Disabled) { this.disabled = Disabled; return this; }
+	
+	/**
+	 * Gets the value for disabled/enabled. If result is true than the 
+	 * button is disabled.
+	 * @r A bool with true for disabled and false for enabled.
+	 */
+	public getDisabled() { return this.disabled; }
+	
+	/**
+	 * Sets the button as a block level element or not. If passed true 
+	 * then the button is set as block level.
+	 * @p Block is a bool with true for block level element.
+	 * @r this
+	 */
+	public setBlock(bool Block) { this.block = Block; return this; }
+	
+	/**
+	 * Gets the attribute for block level element.
+	 * @r A bool with true for block level and false if not.
+	 */
+	public getBlock() { return this.block; }
+	
+	/**
+	 * Overrides the default toString method to implement custom 
+	 * functionality.
+	 * @r A string with the HTML for the button.
+	 */
+	public toString()
+	{
+		if(this.icon) { this.add(new bsGlyph(this.icon)).text(' '); }
+		if(this.text) { this.text(this.text); }
+	
+		this.addClass('btn-' + this.btnDesc);
+		if(this.disabled) { this.addClass('disabled'); }
+		if(this.block) { this.addClass('btn-block'); }
+		
+		// Inherited from bsSizable.
+		if(this.size) { this.addClass('btn-' + this.size); }
+		
+		return this.toHtml();
+	}
+}
+
+/**
+ * bsToolbar class extends _div object and implements the btn-toolbar 
+ * bootstrap class.
+ */
+class bsToolbar : _div
+{
+	/**
+	 * Constructor takes one or more objects to add to the tool bar.
+	 * @p ... is a list of objects to add to the button group.
+	 */
+	public bsToolbar(object ...)
+	{
+		this._div(null, null, 'btn-toolbar');
+		for(btn : etc)
+		{
+			this.add(btn);
+		}
+	}
+}
+
+/**
+ * bsBtnGroup class extends _div and bsSizable objects.
+ */
+class bsBtnGroup : _div, bsSizable
+{
+	public vertical = false;
+
+	/**
+	 * Constructor takes a variable number of caliBs objects for the button 
+	 * group.
+	 * @p ... is a list of objects to add to the button group.
+	 */
+	public bsBtnGroup(object ...)
+	{
+		this._div();
+		this.set('role', 'group');
+		
+		for(btn : etc)
+		{
+			this.add(btn);
+		}
+		
+		this.size = null; 							// no size to begin with
+	}
+	
+	/**
+	 * Sets the button group to vertical or horizontal.
+	 * @p Vertical is a bool with true for vertical or false for horizontal.
+	 * @r this
+	 */
+	public setVertical(bool Vertical) { this.vertical = Vertical; return this; }
+	
+	/**
+	 * Gets the button group orientation for vertical or horizontal.
+	 * @r A bool with true for vertical and false for horizontal.
+	 */
+	public getVertical() { return this.vertical; }
+	
+	/**
+	 * Override the default toString method.
+	 * @r A string with the HTML content.
+	 */
+	public toString()
+	{
+		if(this.vertical) { this.addClass('btn-group-vertical'); }
+		else { this.addClass('btn-group'); }
+		
+		// Inherited from bsSizable.
+		if(this.size) { this.addClass('btn-group-' + this.size); }
+		
+		return this.toHtml();
+	}
+}
+
+/**
+ * bsDropdown extends bsBtn object and implements dropdown functionality.
+ */
+class bsDropdown : bsBtn
+{
+	public dropUp = false;
+	
+	public btnGrp = null;
+	public btn = null;
+	public ul = null;
+	
+	public sb = null;
+	public splitBtn = false;
+	public showCaret = true;
+	
+	public menuItems = [];
+
+	/**
+	 * Constructor takes button text and optional description.
+	 * @p BtnText is a string with the button text.
+	 * @p BsDesc is a string with the bootstrap description. (See bsDesc enum.)
+	 */
+	public bsDropdown(string BtnText, string BsDesc = null)
+	{
+		this.bsBtn(null, BtnText, '#', BsDesc);
+		this.set('aria-expanded', 'true');
+		this.sb = new bsBtn(null, '');
+		
+		// Button part
+		this.addClass('btn-' + this.btnDesc + ' dropdown-toggle');
+		this.set('data-toggle', 'dropdown');
+	}
+	 
+	/**
+	 * Sets the dropUp flag. dropUp controls the direction of the menu with 
+	 * dropUp = false is normal dropdown, by setting true the direction is up.
+	 * @p DropUp is a bool with true for direction up and false for down.
+	 * @r this
+	 */
+	public setDropUp(bool DropUp) { this.dropUp = DropUp; return this; }
+	
+	/**
+	 * Gets the dropUp flag.
+	 * @r A bool with true for up and false for down.
+	 */
+	public getDropUp() { return this.dropUp; }
+	
+	/**
+	 * Sets the split button flag.
+	 * @p IsSplitButton is a bool with true for split button or false for not.
+	 * @r this
+	 */
+	public setUseSplitBtn(bool IsSplitButton) { this.splitBtn = IsSplitButton; return this; }
+	
+	/**
+	 * Gets the split button flag.
+	 * @r A bool with true for split button and false for not.
+	 */
+	public getUseSplitBtn() { return this.splitBtn; }
+	
+	/**
+	 * Sets the split button on-click callback.
+	 * @p OnClick is a string with the JS on-click handler.
+	 * @r this
+	 */
+	public setSplitBtnOnClick(string OnClick) { this.sb.set('onClick', OnClick); return this; }
+	
+	/**
+	 * Gets the split button object.
+	 * @r A bsBtn object of the split button.
+	 */
+	public getSplitBtn() { return this.sb; }
+	
+	/**
+	 * Adds a menu link to the drop down.
+	 * @p Text is a string with the text for the link.
+	 * @p Href is a string with the HREF for the menu link.
+	 * @r this
+	 */
+	public addMenuLink(string Text, string Href = '#')
+	{
+		this.menuItems @= new _li(new _a(Href, new _text(Text)));
+		return this;
+	}
+	
+	/**
+	 * Adds menu header text for the dropdown.
+	 * @p Text is a string with the dropdown header text.
+	 * @r this
+	 */
+	public addMenuHdr(string Text)
+	{
+		this.menuItems @= new bsMenuHdr(Text);
+		return this;
+	}
+	
+	/**
+	 * Add menu divider to dropdown.
+	 * @r this
+	 */
+	public addMenuDiv()
+	{
+		this.menuItems @= new bsMenuDiv();
+		return this;
+	}
+	
+	/**
+	 * Gets a list of the dropdown menu items.
+	 * @r A list with the menu items.
+	 */
+	public getMenuItems() { return this.menuItems; }
+	
+	/**
+	 * Override the toString method to build the dropdown.
+	 * @p UseBtnGroup is a bool flag to use a button group if set to true.
+	 * @r A string with the generated HTML.
+	 */
+	public toString(bool UseBtnGroup = true)
+	{
+		tbtn = this.getButtonSection();
+		this.genMenuSection();
+		
+		dddirection = 'dropdown';
+		if(this.dropUp) { dddirection = 'dropup'; }
+		
+		if(UseBtnGroup)
+		{
+			btnGrp = new _div(null, '', 'btn-group ' + dddirection);
+			if(this.splitBtn) { btnGrp.text(tbtn.toString()); }
+			btnGrp.text(this.toHtml());			// Contruct html here so we dont create recursive loop / stack overflow
+			btnGrp.add(this.ul);
+			
+			return btnGrp.toString();
+		}
+		else
+		{
+			txt = '';
+			txt += tbtn.toString();
+			txt += this.toHtml();
+			txt += this.ul.toString();
+			return txt;
+		}
+	}
+	
+	/**
+	 * Gets the button section of the drop down. This varies 
+	 * based upon if it's a split button or not.
+	 * @r The split button if split button flag is set or the this 
+	 * object if not.
+	 */
+	public getButtonSection()
+	{
+		tbtn = this;
+		if(this.splitBtn)
+		{
+			tbtn = this.sb;
+		}
+		
+		if(this.icon) { tbtn.add(new bsGlyph(this.icon)).text(' '); }
+		if(this.text) { tbtn.text(this.text); }
+		if(this.getBtnDesc()) { tbtn.setBtnDesc(this.getBtnDesc()); }
+		if(this.getSize()) { tbtn.setSize(this.getSize()); }
+		
+		return tbtn;
+	}
+	
+	/**
+	 * Generates the menu section of the dropdown.
+	 */
+	public genMenuSection()
+	{
+		if(this.showCaret) { this.text(' ').add(new _span(null, '', 'caret')); }
+		
+		this.ul = new _ul('', 'dropdown-menu');
+		this.ul.set('role', 'menu');
+		for(mi : this.menuItems) { this.ul.add(mi); }
+	}
+}
+
+/**
+ * bsInGroup extends _div and bsSizable objects and implements bootstrap 
+ * input group functionality.
+ */
+class bsInGroup : _div, bsSizable
+{
+	public inputs = [];
+	public checkBoxes = [];
+	public radioButtons = [];
+
+	/**
+	 * Constructor takes text, input name, place holder and ID.
+	 * @p Text is a string with the input group text. (Optional)
+	 * @p InputName is a string with the HTML element name attribute for the input. (Optional)
+	 * @p PlaceHolder is a string with the placeholder text for the input. (Optional)
+	 * @p Id is a string with the HTML element id. (Optional)
+	 * @p Reverse is a bool flag that when true creates the text/input in reverse order. (Optional)
+	 */
+	public bsInGroup(string Text = null, string InputName = null, string PlaceHolder = null, string Id = null, bool Reverse = false)
+	{
+		this._div(null, null, 'input-group');
+		if(Reverse)
+		{
+			if(InputName)
+			{
+				this.addInput(InputName, PlaceHolder, Id);
+			}
+			if(Text) { this.add(new _span(new _text(Text), null, 'input-group-addon')); }
+		}
+		else
+		{
+			if(Text) { this.add(new _span(new _text(Text), null, 'input-group-addon')); }
+			if(InputName)
+			{
+				this.addInput(InputName, PlaceHolder, Id);
+			}
+		}
+	}
+	
+	/**
+	 * Adds a text element to the input group.
+	 * @p Text is a string to add to the input group.
+	 * @r this
+	 */
+	public addText(string Text) { this.add(new _span(new _text(Text), null, 'input-group-addon')); return this; }
+	
+	/**
+	 * Adds an input element to the input group.
+	 * @p InputName is a string with the HTML element name attribute.
+	 * @p PlaceHolder is a string with the input placeholder text. (Optional)
+	 * @p Id is a string with the HTML element id attribute. (Optional)
+	 * @r this
+	 */
+	public addInput(string InputName, string PlaceHolder = null, string Id = null)
+	{
+		inpt = new _input('text', InputName, null, 'form-control');
+		if(PlaceHolder) { inpt.set('placeholder', PlaceHolder); }
+		if(Id) { inpt.set('id', Id); }
+		this.add(inpt);
+		this.inputs @= inpt;
+		return this;
+	}
+	
+	/**
+	 * Adds a checkbox element to the input group.
+	 * @p InputName is a string with the HTML element name attribute.
+	 * @p Checked is a bool with true for checked and false for not. (Optional)
+	 * @p Id is a string with the HTML element id attribute. (Optional)
+	 * @r this
+	 */
+	public addCheckBox(string InputName, bool Checked = false, string Id = null)
+	{
+		inpt = new _input('checkbox', InputName, Id, '');
+		if(Checked) { inpt.set('checked'); }
+		this.checkBoxes @= inpt;
+		this.add(new _span(inpt, null, 'input-group-addon'));
+		return this;
+	}
+	
+	/**
+	 * Adds a radio button element to the input group.
+	 * @p InputName is a string with the HTML element name attribute.
+	 * @p Checked is a bool with true for checked and false for not. (Optional)
+	 * @p Id is a string with the HTML element id attribute. (Optional)
+	 * @r this
+	 */
+	public addRadioBtn(string InputName, bool Checked = false, string Id = null)
+	{
+		inpt = new _input('radio', InputName, Id, '');
+		if(Checked) { inpt.set('checked'); }
+		this.radioButtons @= inpt;
+		this.add(new _span(inpt, null, 'input-group-addon'));
+		return this;
+	}
+	
+	/**
+	 * Adds a button to the input group.
+	 * @p BsButton is a bsBtn object to add to the input group.
+	 * @r this
+	 */
+	public addButton(object BsButton)
+	{
+		if(BsButton instanceof 'bsDropdown' && BsButton.splitBtn)
+		{
+			spn = new _span(null, null, 'input-group-btn');
+			spn.text(BsButton.toString(false));
+			this.add(spn);
+		}
+		else
+		{
+			this.add(new _span(BsButton, null, 'input-group-btn'));
+		}
+		return this; 
+	}
+	
+	/**
+	 * Gets a list of the inputs for this input group.
+	 * @r A list with the inputs.
+	 */
+	public getInputs() { return this.inputs; }
+	
+	/**
+	 * Gets a list of the check boxes for this input group.
+	 * @r A list with the check boxes.
+	 */
+	public getCheckBoxes() { return this.checkBoxes; }
+	
+	/**
+	 * Gets a list of radio buttons for this input group.
+	 * @r A list with all the radio buttons.
+	 */
+	public getRadioButtons() { return this.radioButtons; }
+	
+	/**
+	 * Gets the first input matching the id, or null if not found.
+	 * @p Id is a string with the HTML element ID to match.
+	 * @r A input object if found or null if not.
+	 */
+	public getInputById(string Id)
+	{
+		for(inp : this.inputs)
+		{
+			if(inp.get('id') && inp.get('id') == Id) { return inp; }
+		}
+		return null;
+	}
+	
+	/**
+	 * Override toString method to implement customizations.
+	 * @r A string with the generated HTML.
+	 */
+	public toString()
+	{
+		// inherited from bsSizable
+		if(this.size) { this.addClass('input-group-' + this.size); }	
+		return this.toHtml();
+	}
+}
+
+/**
+ * bsNavItem extends _li object and implements bootstrap 
+ * nav item functionality.
+ */
+class bsNavItem : _li
+{
+	anchor = null;
+	active = false;
+	disabled = false;
+	
+	/**
+	 * Constructor takes the nave item href, text and active bool.
+	 * @p Href is a string with the HREF for the nav item. (Optional)
+	 * @p Text is a string with the text of the nave item. (Optional)
+	 * @p Active is a bool with true for active and false for not. (Optional)
+	 */
+	public bsNavItem(string Href = '', string Text = '', bool Active = false)
+	{
+		this.anchor = new _a(Href, new _text(Text));
+		this._li(this.anchor);
+		this.set('role', 'presentation');
+		this.active = Active;
+	}
+	
+	/**
+	 * Sets the nav item active flag.
+	 * @p Active is a bool with true for active and false for not.
+	 * @r this
+	 */
+	public setActive(bool Active) { this.active = Active; return this; }
+	
+	/**
+	 * Sets the nav item disabled flag.
+	 * @p Disabled is a bool with true for disabled or false for not.
+	 * @r this
+	 */
+	public setDisabled(bool Disabled) { this.disabled = Disabled; return this; }
+	
+	/**
+	 * Sets the nav item anchor.
+	 * @p Anchor is a _a object for the nav item.
+	 * @r this
+	 */
+	public setAnchor(object Anchor) { this.anchor = Anchor; return this; }
+	
+	/**
+	 * Override toString method and implement custom functionality.
+	 * @r A string with the HTML content.
+	 */
+	public toString()
+	{
+		if(this.active) { this.addClass('active'); }
+		if(this.disabled) { this.addClass('disabled'); }
+		return this.toHtml();
+	}
+}
+
+/**
+ * bsNav class extends _ul object and implements bootstrap nav 
+ * functionality.
+ */
+class bsNav : _ul
+{
+	navType = 'tab';
+	stacked = false;
+	justified = false;
+	
+	/**
+	 * Constructor takes an optional nav type string. See navType
+	 * enum for options. The default is navType.tab.
+	 * @p NavType is a string with the nav type. (Optional)
+	 */
+	public bsNav(string NavType = 'tab')
+	{
+		this._ul();
+		this.addClass('nav');
+		this.navType = NavType;
+	}
+	
+	/**
+	 * Sets the stacked flag for this nav object.
+	 * @p Stacked is a bool with true for stacked and false for not.
+	 * @r this
+	 */
+	public setStacked(bool Stacked) { this.stacked = Stacked; return this; }
+	
+	/**
+	 * Sets the justified flag for this nav object.
+	 * @p Justified is a bool with true for justified and false for not.
+	 * @r this
+	 */
+	public setJustified(bool Justified) { this.justified = Justified; return this; }
+	
+	/**
+	 * Override the default toString method to implement custom functionality.
+	 * @r A string with the built HTML content.
+	 */
+	public toString()
+	{
+		if(this.navType == 'tab') { this.addClass('nav-tabs'); }
+		else if(this.navType == 'pills') { this.addClass('nav-pills'); }
+		
+		if(this.stacked) { this.addClass('nav-stacked'); }
+		if(this.justified) { this.addClass('nav-justified'); }
+		
+		return this.toHtml();
+	}
+}
+
+/**
+ * bsRow class extends _div and bsSizable classes and implements 
+ * bootstrap grid row functionality.
+ */
+class bsRow : _div, bsSizable
+{
+	private rowTotal = 0;
+	
+	/**
+	 * Constructor takes an optional bsSize parameter. See bsSize 
+	 * enum for options.
+	 * @p BsSize is a string with the size for the bsRow. (Optional)
+	 */
+	public bsRow(string BsSize = "sm")
+	{
+		this._div(null, '', 'row');
+		this.size = BsSize;
+	}
+	
+	/**
+	 * Adds a new cell to the bsRow object. The Content object
+	 * is expected to be a _div or object inherited from _div.
+	 * @p Content is a object of type _div to add to the row.
+	 * @p CellNum is a int with the size of the cell to add. 
+	 * (Available range is 1-12.)
+	 * @r this
+	 */
+	public addCell(object Content, int CellNum)
+	{
+		if(CellNum > 0 && CellNum <=12)
+		{
+			if(this.rowTotal + CellNum <= 12)
+			{
+				Content.addClass('col-' + this.size + '-' + CellNum);
+				this.add(Content);
+			}
+			else { throw "Exceded max cell number for row."; }
+		}
+		else { throw "CellNum must be an integer between 1-12."; }
+		
+		return this;
+	}
+}
+
+/**
+ * bsVbox class extends _div and implements boostrap style for a vertical 
+ * grid container. bsVbox can be used to position elements vertically.
+ */
+class bsVbox : _div
+{
+	/**
+	 * Constructor.
+	 */
+	public bsVbox()
+	{
+		this._div(null, '', '');
+	}
+	
+	/**
+	 * Adds a new cell to the bsVbox object. The Content object
+	 * is expected to be a _div or object inherited from _div.
+	 * @p Content is a object of type _div to add to the bsVbox.
+	 * @p CellNum is a int with the size of the cell to add. (Optional) 
+	 * (Available range is 1-12.)
+	 * @r this
+	 */
+	public addCell(object Content, int CellNum = 12)
+	{
+		trow = new bsRow();
+		trow.addCell(Content, CellNum);
+		this.add(trow);
+		return this;
+	}
+}
+
+/**
+ * bsHbox extends bsRow and is simply a wrapper around bsRow to provide 
+ * a complimentary object to bsVbox.
+ */
+class bsHbox : bsRow
+{
+	/**
+	 * Constructor takes optional bsSize string. See bsSize enum for options.
+	 * @p BsSize is a string with the size for the bsHbox.
+	 */
+	public bsHbox(string BsSize = "sm") { this.bsRow(BsSize); }
+}
+
+/**
+ * bsPre extends _pre and implements a few customizations to the normal 
+ * boostrap styling of the pre element.
+ */
+class bsPre : _pre
+{
+	private hscroll = false;
+	
+	/**
+	 * Constructor takes the content object for the pre section. The 
+	 * constructor also sets overflow: auto, word-wrap: normal, and 
+	 * white-space: pre in the style of the element.
+	 * @p Content is a object with the content for the pre.
+	 */
+	public bsPre(object Content)
+	{
+		this._pre(Content);
+		this.set('style', 'overflow: auto; word-wrap: normal; white-space: pre;');
+	}
+	
+	/**
+	 * Sets the horizontal scroll flag for the pre. If set to true the 
+	 * content of the pre will be horizontally scrollable.
+	 * @p HorizontalScroll is a bool with the flag for horizontal scroll.
+	 * @r this
+	 */
+	public setHScroll(bool HorizontalScroll) { this.hscroll = HorizontalScroll; return this; }
+	
+	/**
+	 * Gets the horizontal scroll flag.
+	 * @r A bool with the horizontal scroll flag.
+	 */
+	public getHScroll() { return this.hscroll; }
+	
+	/**
+	 * Override the default toString to implement custom rendering.
+	 * @r A string with the HTML content.
+	 */
+	public toString()
+	{
+		if(this.hscroll) { this.addClass('pre-scrollable'); }
+		return this.toHtml();
+	}
+}
+
+/**
+ * bsCrumb extends _ol object and implements bootstrap breadcrumb.
+ */
+class bsCrumb : _ol
+{
+	/**
+	 * Constructor.
+	 */
+	public bsCrumb()
+	{
+		this._ol(null, 'breadcrumb');
+	}
+	
+	/**
+	 * Adds a bsMenuItem object.
+	 * @p MenuItem is a bsMenuItem object to add.
+	 * @r this
+	 */
+	public addMenuItem(object MenuItem) { this.add(MenuItem); return this; }
+}
+
+/**
+ * bsLabel extends _span and impelements bootstrap label.
+ */
+class bsLabel : _span
+{
+	/**
+	 * Constructor takes the label text and an optional bsDesc string.
+	 * @p Text is a string with the text for the label.
+	 * @p BsDesc is a string with the bootstrap description. (Optional) 
+	 * (See bsDesc for available options.)
+	 */
+	public bsLabel(string Text, string BsDesc = 'default')			// see bsDesc enum for options
+	{
+		this._span(new _text(Text), null, 'label label-' + BsDesc);
+	}
+}
+
+/**
+ * bsBadge extends _span and implements bootstrap label.
+ */
+class bsBadge : _span
+{
+	/**
+	 * Constructor takes the text of the badge.
+	 * @p Text is a string with the text of the badge.
+	 */
+	public bsBadge(string Text)
+	{
+		this._span(new _text(Text), null, 'badge');
+	}
+}
+
+/**
+ * bsJumbo extends _div and impelemnts bootstrap jumbotron.
+ */
+class bsJumbo : _div
+{
+	/**
+	 *Constructor takes an optional string with the title for 
+	 * the jumbotron. This is actually added to the _div base object 
+	 * as a _h1 element.
+	 * @p Title is a string with the title of the jumbotron.
+	 */
+	public bsJumbo(string Title = null)
+	{
+		this._div(null, null, 'jumbotron');
+		if(Title) { this.add(new _h1(new _text(Title))); }
+	}
+}
+
+/**
+ * bsAlert extends _div and implements bootstrap alert.
+ */
+class bsAlert : _div
+{
+	/**
+	 * Constructor takes an optional bootstrap description string 
+	 * and the text for the alert.
+	 * @p BsDesc is a string with the alert description. (Optional) (See 
+	 * bsDesc enum for available options.)
+	 * @p Text is a string with the text for the alert.
+	 */
+	public bsAlert(string BsDesc = 'success', string Text = null)
+	{
+		this._div(null, null, 'alert alert-' + BsDesc);
+		this.set('role', 'alert');
+		if(Text) { this.text(Text); }
+	}
+	
+	/**
+	 * Adds a HTML anchor to the alert. This method exists to apply the 
+	 * bootstrap alert-link class to the provided Anchor before adding 
+	 * to the alert.
+	 * @p Anchor is an object of type _a to add.
+	 * @r this
+	 */
+	public addLink(object Anchor) { Anchor.addClass('alert-link'); this.add(Anchor); return this; }
+}
+
+/**
+ * bsTable extends _table and implements bootstrap table style.
+ */
+class bsTable : _table
+{
+	/**
+	 * Constructor takes an optional id string for the table.
+	 * @p id is a string with the id attribute for the table. (Optional)
+	 */
+	public bsTable(string id = null)
+	{
+		this._table(id, 'table');
+	}
+	
+	/**
+	 * Applies the bootstrap striped style to the table.
+	 * @r this
+	 */
+	public setStriped() { this.addClass('table-striped'); return this; }
+	
+	/**
+	 * Applies the bootstrap bordered style to the table.
+	 * @r this
+	 */
+	public setBordered() { this.addClass('table-bordered'); return this; }
+	
+	/**
+	 * Applies the bootstrap hover style to the table.
+	 * @r this
+	 */
+	public setHover() { this.addClass('table-hover'); return this; }
+	
+	/**
+	 * Applies the bootstrap condensed style to the table.
+	 * @r this
+	 */
+	public setCondensed() { this.addClass('table-condensed'); return this; }
+}
+
+/**
+ * bsThead extends _thead object. This class is just a basic wrapper around 
+ * _thead for naming consistency.
+ */
+class bsThead : _thead
+{
+	/**
+	 * Constructor takes optional thead id attribute string and a class string.
+	 * @p Id is a string with the element id attribute for the thead. (Optional)
+	 * @p Class is a string with the CSS class to apply to the thead element. (Optional)
+	 */
+	public bsThead(string Id = null, string Class = null) { this._thead(Id, Class); }
+}
+
+/**
+ * bsTbody extends _tbody object. This class is just a basic wrapper around 
+ * _tbody for naming consistency.
+ */
+class bsTbody : _tbody
+{
+	/**
+	 * Constructor takes optional thead id attribute string and a class string.
+	 * @p Id is a string with the element id attribute for the thead. (Optional)
+	 * @p Class is a string with the CSS class to apply to the thead element. (Optional)
+	 */
+	public bsTbody(string Id = null, string Class = null) { this._tbody(Id, Class); }
+}
+
+/**
+ * bsTr extends _tr and implements bootstrap table row style.
+ */
+class bsTr : _tr
+{
+	/**
+	 * Constructor takes optional thead id attribute string and a class string.
+	 * @p Id is a string with the element id attribute for the thead. (Optional)
+	 * @p Class is a string with the CSS class to apply to the thead element. (Optional)
+	 */
+	public bsTr(string Id = null, string Class = null) { this._tr(Id, Class); }
+	
+	/**
+	 * Sets the bootstrap description for the row.
+	 * @p BsDesc is a string with the bootstrap description to apply to 
+	 * the row. (Optional) (See bsDesc enum for available options.) When 
+	 * using values of normal, primary or link the default grey style 
+	 * is applied. All other values map to normal bsDesc values.
+	 * @r this
+	 */
+	public setBsDesc(string BsDesc = null)
+	{
+		if(BsDesc)
+		{
+			if(BsDesc == "normal" || BsDesc == "primary" || BsDesc == "link") { this.addClass('active'); }
+			else { this.addClass(BsDesc); }
+		}
+		return this;
+	}
+}
+
+/**
+ * bsTh extends _th object. This class is just a basic wrapper around 
+ * _th for naming consistency.
+ */
+class bsTh : _th
+{
+	/**
+	 * Constructor takes option string text, element id and CSS class.
+	 * @p Text is a string with the text to add to the table column 
+	 * heading. (Optional)
+	 * @p Id is a string with the id attribute of the th element. (Optional)
+	 * @p Class is a string with the CSS class to apply. (Optional)
+	 */
+	public bsTh(string Text = null, string Id = null, string Class = null) { this._th(Text, Id, Class); }
+}
+
+/**
+ * bsTd extends _td and implements bootstrap table cell style.
+ */
+class bsTd : _td
+{
+	/**
+	 * Constructor takes optional content object, string id and string class.
+	 * @p Content is an object with the content to add to the cell. (Optional)
+	 * @p Id is a string with the element id attribute to apply. (Optional)
+	 * @p Class is a string with the CSS class to apply. (Optional)
+	 */
+	public bsTd(Content = null, string Id = null, string Class = null) { this._td(Content, Id, Class); }
+	
+	/**
+	 * Sets the bootstrap description for the row.
+	 * @p BsDesc is a string with the bootstrap description to apply to 
+	 * the row. (Optional) (See bsDesc enum for available options.) When 
+	 * using values of normal, primary or link the default grey style 
+	 * is applied. All other values map to normal bsDesc values.
+	 * @r this
+	 */
+	public setBsDesc(string BsDesc = null)
+	{
+		if(BsDesc)
+		{
+			if(BsDesc == "normal" || BsDesc == "primary" || BsDesc == "link") { this.addClass('active'); }
+			else { this.addClass(BsDesc); }
+		}
+		return this;
+	}
+}

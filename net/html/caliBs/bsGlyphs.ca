@@ -1,0 +1,252 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+include net.html.html;
+include reflect;
+
+/**
+ * Glyph class extends span element.
+ */
+class bsGlyph : _span
+{
+	/**
+	 * The default constructor takes a required string with the glyph 
+	 * name.
+	 * @p Glyph is a string with the glyph name to be used.
+	 */
+	public bsGlyph(string Glyph)
+	{
+		this._span(null, '', 'glyphicon ' + string.replace(Glyph, '_', '-'));
+	}
+}
+
+/**
+ * The glyph static class defines all available glypy values 
+ * that can be used.
+ */
+static class glyph
+{
+	public asterisk = "glyphicon-asterisk";
+	public plus = "glyphicon-plus";
+	public minus = "glyphicon-minus";
+	public euro = "glyphicon-euro";
+	public cloud = "glyphicon-cloud";
+	public envelope = "glyphicon-envelope";
+	public pencil = "glyphicon-pencil";
+	public glass = "glyphicon-glass";
+	public music = "glyphicon-music";
+	public search = "glyphicon-search";
+	public heart = "glyphicon-heart";
+	public star = "glyphicon-star";
+	public star_empty = "glyphicon-star-empty";
+	public user = "glyphicon-user";
+	public film = "glyphicon-film";
+	public th_large = "glyphicon-th-large";
+	public th = "glyphicon-th";
+	public th_list = "glyphicon-th-list";
+	public ok = "glyphicon-ok";
+	public remove = "glyphicon-remove";
+	public zoom_in = "glyphicon-zoom-in";
+	public zoom_out = "glyphicon-zoom-out";
+	public off = "glyphicon-off";
+	public signal = "glyphicon-signal";
+	public cog = "glyphicon-cog";
+	public trash = "glyphicon-trash";
+	public home = "glyphicon-home";
+	public file = "glyphicon-file";
+	public time = "glyphicon-time";
+	public road = "glyphicon-road";
+	public download_alt = "glyphicon-download-alt";
+	public download = "glyphicon-download";
+	public upload = "glyphicon-upload";
+	public inbox = "glyphicon-inbox";
+	public play_circle = "glyphicon-play-circle";
+	public repeat = "glyphicon-repeat";
+	public refresh = "glyphicon-refresh";
+	public list_alt = "glyphicon-list-alt";
+	public lock = "glyphicon-lock";
+	public flag = "glyphicon-flag";
+	public headphones = "glyphicon-headphones";
+	public volume_off = "glyphicon-volume-off";
+	public volume_down = "glyphicon-volume-down";
+	public volume_up = "glyphicon-volume-up";
+	public qrcode = "glyphicon-qrcode";
+	public barcode = "glyphicon-barcode";
+	public tag = "glyphicon-tag";
+	public tags = "glyphicon-tags";
+	public book = "glyphicon-book";
+	public bookmark = "glyphicon-bookmark";
+	public print = "glyphicon-print";
+	public camera = "glyphicon-camera";
+	public font = "glyphicon-font";
+	public bold = "glyphicon-bold";
+	public italic = "glyphicon-italic";
+	public text_height = "glyphicon-text-height";
+	public text_width = "glyphicon-text-width";
+	public align_left = "glyphicon-align-left";
+	public align_center = "glyphicon-align-center";
+	public align_right = "glyphicon-align-right";
+	public align_justify = "glyphicon-align-justify";
+	public list = "glyphicon-list";
+	public indent_left = "glyphicon-indent-left";
+	public indent_right = "glyphicon-indent-right";
+	public facetime_video = "glyphicon-facetime-video";
+	public picture = "glyphicon-picture";
+	public map_marker = "glyphicon-map-marker";
+	public adjust = "glyphicon-adjust";
+	public tint = "glyphicon-tint";
+	public edit = "glyphicon-edit";
+	public share = "glyphicon-share";
+	public check = "glyphicon-check";
+	public move = "glyphicon-move";
+	public step_backward = "glyphicon-step-backward";
+	public fast_backward = "glyphicon-fast-backward";
+	public backward = "glyphicon-backward";
+	public play = "glyphicon-play";
+	public pause = "glyphicon-pause";
+	public stop = "glyphicon-stop";
+	public forward = "glyphicon-forward";
+	public fast_forward = "glyphicon-fast-forward";
+	public step_forward = "glyphicon-step-forward";
+	public eject = "glyphicon-eject";
+	public chevron_left = "glyphicon-chevron-left";
+	public chevron_right = "glyphicon-chevron-right";
+	public plus_sign = "glyphicon-plus-sign";
+	public minus_sign = "glyphicon-minus-sign";
+	public remove_sign = "glyphicon-remove-sign";
+	public ok_sign = "glyphicon-ok-sign";
+	public question_sign = "glyphicon-question-sign";
+	public info_sign = "glyphicon-info-sign";
+	public screenshot = "glyphicon-screenshot";
+	public remove_circle = "glyphicon-remove-circle";
+	public ok_circle = "glyphicon-ok-circle";
+	public ban_circle = "glyphicon-ban-circle";
+	public arrow_left = "glyphicon-arrow-left";
+	public arrow_right = "glyphicon-arrow-right";
+	public arrow_up = "glyphicon-arrow-up";
+	public arrow_down = "glyphicon-arrow-down";
+	public share_alt = "glyphicon-share-alt";
+	public resize_full = "glyphicon-resize-full";
+	public resize_small = "glyphicon-resize-small";
+	public exclamation_sign = "glyphicon-exclamation-sign";
+	public gift = "glyphicon-gift";
+	public leaf = "glyphicon-leaf";
+	public fire = "glyphicon-fire";
+	public eye_open = "glyphicon-eye-open";
+	public eye_close = "glyphicon-eye-close";
+	public warning_sign = "glyphicon-warning-sign";
+	public plane = "glyphicon-plane";
+	public calendar = "glyphicon-calendar";
+	public random = "glyphicon-random";
+	public comment = "glyphicon-comment";
+	public magnet = "glyphicon-magnet";
+	public chevron_up = "glyphicon-chevron-up";
+	public chevron_down = "glyphicon-chevron-down";
+	public retweet = "glyphicon-retweet";
+	public shopping_cart = "glyphicon-shopping-cart";
+	public folder_close = "glyphicon-folder-close";
+	public folder_open = "glyphicon-folder-open";
+	public resize_vertical = "glyphicon-resize-vertical";
+	public resize_horizontal = "glyphicon-resize-horizontal";
+	public hdd = "glyphicon-hdd";
+	public bullhorn = "glyphicon-bullhorn";
+	public bell = "glyphicon-bell";
+	public certificate = "glyphicon-certificate";
+	public thumbs_up = "glyphicon-thumbs-up";
+	public thumbs_down = "glyphicon-thumbs-down";
+	public hand_right = "glyphicon-hand-right";
+	public hand_left = "glyphicon-hand-left";
+	public hand_up = "glyphicon-hand-up";
+	public hand_down = "glyphicon-hand-down";
+	public circle_arrow_right = "glyphicon-circle-arrow-right";
+	public circle_arrow_left = "glyphicon-circle-arrow-left";
+	public circle_arrow_up = "glyphicon-circle-arrow-up";
+	public circle_arrow_down = "glyphicon-circle-arrow-down";
+	public globe = "glyphicon-globe";
+	public wrench = "glyphicon-wrench";
+	public tasks = "glyphicon-tasks";
+	public filter = "glyphicon-filter";
+	public briefcase = "glyphicon-briefcase";
+	public fullscreen = "glyphicon-fullscreen";
+	public dashboard = "glyphicon-dashboard";
+	public paperclip = "glyphicon-paperclip";
+	public heart_empty = "glyphicon-heart-empty";
+	public link = "glyphicon-link";
+	public phone = "glyphicon-phone";
+	public pushpin = "glyphicon-pushpin";
+	public usd = "glyphicon-usd";
+	public gbp = "glyphicon-gbp";
+	public sort = "glyphicon-sort";
+	public sort_by_alphabet = "glyphicon-sort-by-alphabet";
+	public sort_by_alphabet_alt = "glyphicon-sort-by-alphabet-alt";
+	public sort_by_order = "glyphicon-sort-by-order";
+	public sort_by_order_alt = "glyphicon-sort-by-order-alt";
+	public sort_by_attributes = "glyphicon-sort-by-attributes";
+	public sort_by_attributes_alt = "glyphicon-sort-by-attributes-alt";
+	public unchecked = "glyphicon-unchecked";
+	public expand = "glyphicon-expand";
+	public collapse_down = "glyphicon-collapse-down";
+	public collapse_up = "glyphicon-collapse-up";
+	public log_in = "glyphicon-log-in";
+	public flash = "glyphicon-flash";
+	public log_out = "glyphicon-log-out";
+	public new_window = "glyphicon-new-window";
+	public record = "glyphicon-record";
+	public save = "glyphicon-save";
+	public open = "glyphicon-open";
+	public saved = "glyphicon-saved";
+	public import = "glyphicon-import";
+	public export = "glyphicon-export";
+	public send = "glyphicon-send";
+	public floppy_disk = "glyphicon-floppy-disk";
+	public floppy_saved = "glyphicon-floppy-saved";
+	public floppy_remove = "glyphicon-floppy-remove";
+	public floppy_save = "glyphicon-floppy-save";
+	public floppy_open = "glyphicon-floppy-open";
+	public credit_card = "glyphicon-credit-card";
+	public transfer = "glyphicon-transfer";
+	public cutlery = "glyphicon-cutlery";
+	public header = "glyphicon-header";
+	public compressed = "glyphicon-compressed";
+	public earphone = "glyphicon-earphone";
+	public phone_alt = "glyphicon-phone-alt";
+	public tower = "glyphicon-tower";
+	public stats = "glyphicon-stats";
+	public sd_video = "glyphicon-sd-video";
+	public hd_video = "glyphicon-hd-video";
+	public subtitles = "glyphicon-subtitles";
+	public sound_stereo = "glyphicon-sound-stereo";
+	public sound_dolby = "glyphicon-sound-dolby";
+	public sound_5_1 = "glyphicon-sound-5-1";
+	public sound_6_1 = "glyphicon-sound-6-1";
+	public sound_7_1 = "glyphicon-sound-7-1";
+	public copyright_mark = "glyphicon-copyright-mark";
+	public registration_mark = "glyphicon-registration-mark";
+	public cloud_download = "glyphicon-cloud-download";
+	public cloud_upload = "glyphicon-cloud-upload";
+	public tree_conifer = "glyphicon-tree-conifer";
+	public tree_deciduous = "glyphicon-tree-deciduous";
+
+	/**
+	 * Returns a sorted list with all glyph names.
+	 * @r A sorted list of glyph names.
+	 */
+	public allGlyphs()
+	{
+		cls = reflect.getClassDef("glyph");
+		return list.sort(map.keySet(cls.getMembers()));
+	}
+}

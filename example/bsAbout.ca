@@ -1,0 +1,130 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Inclue caliBs bsPages and bsComponents modules.
+include net.html.caliBs.bsPages;
+include net.html.caliBs.bsComponents;
+
+// Include example bsClasses module.
+include example.bsClasses;
+
+/**
+ * About page extends examplePage and creates an about page for 
+ * this example site.
+ */
+class bsAbout : examplePage
+{
+	/**
+	 * The constructor calls the examplePage parent constructor with the 
+	 * page title, creates the page container and adds the container to 
+	 * the body of the page.
+	 */
+	public bsAbout()
+	{
+		// Call constructor.
+		this.examplePage("caliBs About");
+		
+		// Create a new bootstrap container div (defined in bsComponents).
+		ctr = new bsContainer();
+		ctr
+			.add(new _h1("About caliBs"))
+			.add(new _h2("caliBs: A Bootstrap library for Cali-Lang."))
+			.add(this.about_text())
+			.br()
+			.add(this.doineed_text())
+			.br()
+			.add(this.license_text())
+			.br()
+			.add(this.getting_started_text())
+			.br()
+		;
+		
+		// Add the container to the body of the page.
+		this.body.add(ctr);
+	}
+	
+	/**
+	 * Creates the about text paragrap and returns it.
+	 * @r A _p object with the about text.
+	 */
+	private about_text()
+	{
+		p = new _p("");
+		
+		p.add(new _text("
+			caliBs is an opensource Cali-Lang library for creating responsive web 
+			pages. It uses Bootstrap CSS/JS and Cali-Lang HTML library 
+			and provides a simple API for creating stylish and well formatted websites. 
+			CaliBs classes extend the cali-lang built-in html classes. For details on 
+			these see /modsys/net/html/ directory in your cali-lang installation folder.
+		"));
+		
+		return p;
+	}
+	
+	/**
+	 * Creates the 'do I need' section and returns it.
+	 * @r A _div with the 'do I need' text.
+	 */
+	private doineed_text()
+	{
+		dv = new _div();
+		dv.add(new _h2(new _text('Do I need caliBs to use bootstrap?')));
+		dv.add((new _p()).text("
+		Nope. There's nothing stopping you from just including whatever CSS and 
+		JS classes you like. There are a variety of ways to do this. The cali-lang 
+		HTML library is meant to simplify working with HTML and make it more 
+		testable. CaliBs is just an extension of that and the objective is to 
+		provide a simple way of creating sytlish web pages.
+		"));
+		
+		return dv;
+	}
+	
+	/**
+	 * Creates the license text section and returns it.
+	 * @r A _div with the license text.
+	 */
+	private license_text()
+	{
+		dv = new _div();
+		dv.add(new _h2(new _text('License')));
+		dv.add((new _p()).text("
+		CaliBs is released under the Apache 2 license. Free as in freedom.
+		"));
+		
+		return dv;
+	}
+	
+	/**
+	 * Creates the getting started text and returnes it.
+	 * @r A _div with the getting started text.
+	 */
+	private getting_started_text()
+	{
+		dv = new _div();
+		dv.add(new _h2(new _text('Getting Sarted')));
+		dv.add((new _p()).text("
+		Have a look through the Examples and Components pages. Examples 
+		page provides a few full page examples to get you started. The 
+		Components page goes through each component providing usage 
+		information. All of the source code for caliBs is available 
+		for reference and modification.
+		"));
+		
+		return dv;
+	}
+}

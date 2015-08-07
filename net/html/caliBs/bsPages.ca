@@ -1,0 +1,91 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+include net.html.html;
+
+/**
+ * Base bootstrap page extends _html object. This class handles the 
+ * setup for the html page. It adds the required CSS files to the head 
+ * section of the page and adds required JS files at the end of the 
+ * body section.
+ */
+class bsPage : _html
+{
+	public head = null;					// Head section.
+	public bsLink = null;				// Bootsrap link.
+	
+	public body = null;					// Body section.
+	
+	public jqScript = null;				// Jquery JS script link.
+	public bsScript = null;				// Bootstrap JS script link.
+	public jsScripts = [];				// List of JS links to be added at end of body section.
+	
+	/**
+	 * Default page constructior takes an optional title for the page.
+	 * @p Title is a string with the title of the page or null.
+	 */
+	public bsPage(string Title = null)
+	{
+		// Call parent constructor.
+		this._html();
+		this.set('lang', 'en');
+		
+		// New head section, add to html, set charset and set bootstrap viewport.
+		this.head = new _head();
+		this.add(this.head);
+		this.head.add((new _meta()).set('charset', 'utf-8'));
+		this.head.add(new _meta('viewport', 'width=device-width, initial-scale=1'));
+		
+		// Set title if provided.
+		if(Title) { this.head.add(new _title(new _text(Title))); }
+		
+		// Create new bootstrap CDN link and add it to head. This can be changed.
+		// later by modifying the member bsLink.
+		this.bsLink = new _link('stylesheet', 'text/css', 'bootstrap.min.css');
+		this.head.add(this.bsLink);
+		
+		// Create body and add to page.
+		this.body = new _body();
+		this.add(this.body);
+		
+		// Create jquery and bootstrap js script tags and add them to jsScripts list.
+		this.jqScript = (new _script()).set('src', 'jquery.min.js');
+		this.bsScript = (new _script()).set('src', 'bootstrap.min.js');
+		this.jsScripts @= this.jqScript;
+		this.jsScripts @= this.bsScript;
+	}
+	
+	/**
+	 *This was added because bootstrap navbar doesn't format properly when using 
+	 * fixed to top of page currently. Without this the page content will start under the 
+	 * nav bar.
+	 * @r this
+	 */
+	public setFixedTopNav() { this.body.set('style', 'min-height: 2000px; padding-top: 70px;'); return this; }
+	
+	/**
+	 * Override the toString so we can add the jsScripts at the very 
+	 * bottom of the body section.
+	 * @r A string with the page HTML content.
+	 */
+	public toString()
+	{
+		rstr = (new _doctype('html')).toString();			// Set doctype
+		for(jss : this.jsScripts) { this.body.add(jss); }
+		rstr += this.toHtml();								// Same as toString method but allows override of toString ...
+		return rstr;
+	}
+}

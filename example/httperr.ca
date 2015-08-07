@@ -1,0 +1,75 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+include net.html.caliBs.bsPages;
+include net.html.caliBs.bsComponents;
+
+/** 
+ * Http errpg extends bsPage and implements various HTTP error pages.
+ */
+class errpg : bsPage
+{
+	/**
+	 * Constructor takes the response cod and message and builds the 
+	 * error page.
+	 * @p respCode is a int with the HTTP response code. (ie 404, 500)
+	 * @p message is a string with the error message.
+	 */
+	public errpg(int respCode, string message)
+	{
+		// Call parent constructor.
+		this.bsPage("HTTP Error " + respCode);
+		
+		// Create a new bootstrap container div (defined in bsComponents).
+		ctr = new bsContainer();
+		ctr
+			.add(new _h1(respCode))
+			.add(new _p(message))
+		;
+		
+		// Add the container to the body of the page.
+		this.body.add(ctr);
+	}
+}
+
+/**
+ * Class errpg404 extends errpg and implements 404 error page.
+ */
+class errpg404 : errpg
+{
+	/**
+	 * Default constructor takes the requested resource and builds the error page.
+	 * @p reqResource is a string with the requested resource.
+	 */
+	public errpg400(string reqResource)
+	{
+		this.errpg(400, "Requested resource '" + reqResource + "' not found!");
+	}
+}
+
+/**
+ * Class errpg500 extends errpg and implements 500 error page.
+ */
+class errpg500 : errpg
+{
+	/**
+	 * Default constructor builds the error page.
+	 */
+	public errpg500()
+	{
+		this.errpg(500, "Internal server error!");
+	}
+}

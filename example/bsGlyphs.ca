@@ -1,0 +1,155 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+include net.html.caliBs.bsPages;
+include net.html.caliBs.bsComponents;
+include net.html.caliBs.bsGlyphs;
+
+include example.bsClasses;
+
+/**
+ * Demo page for glyphs.
+ */
+class bsGlyphs : examplePage
+{
+	/**
+	 * Constructor to build page.
+	 */
+	public bsGlyphs()
+	{
+		// Call parent constructor with title.
+		this.examplePage("caliBs Glyphs");
+		
+		// Create a new bootstrap container div (defined in bsComponents).
+		ctr = new bsContainer();
+		
+		/*
+		 * Information section
+		 */
+		ctr
+			.add(new _h1("Glyphs"))
+			.add(new _p(this.glyph_desc_text()))
+			.br()
+			.add(new bsPre(new _text(this.glyph_desc_code())))
+		;
+		
+		star_info = new _div();
+		star_info
+			.add(new bsGlyph(glyph.star))
+			.add(new _span('cali-lang like star'))
+		;
+		
+		ctr
+			.add(new _p("Below is an example of the code above."))
+			.add(star_info)
+			.br()
+			.add(new _p(this.all_glyph_text()))
+			.add(new bsPre(new _text(this.all_glyph_code())))
+			.br()
+			.add(new _h3("Available Glyphs"))
+		;
+		
+		
+		/*
+		 * Grid with all glyphs.
+		 */
+		// Create new bsVbox and add it to the container.
+		tbl = new bsVbox();
+		ctr.add(tbl);
+		
+		// Loop through all glyph names and add them in rows of 4 each.
+		crow = new bsHbox(bsSize.xs);
+		for(glname : glyph.allGlyphs())
+		{	
+			gdiv = new _div();
+			gdiv.set('style', 'text-align: center; width: 140px; height: 80px; padding-top: 20px; padding-bottom: 20px');
+			gdiv
+				.add(new bsGlyph('glyphicon-' + glname))
+				.br()
+				.add(new _span(new _text(glname)))
+			;
+			crow.addCell(gdiv, 1);
+		}
+		tbl.add(crow);
+		
+		// Add the container to the body of the page.
+		this.body.add(ctr);
+	}
+	
+	
+	/*****************************************************************
+	 * Helper methods with text and code sections.
+	 ****************************************************************/
+	private glyph_desc_text()
+	{
+		return "
+				Glyphs in caliBs are basically the same as the ones in normal bootstrap. The main difference is that 
+				in caliBs they are part of a static class so the cali-lang parser will throw an exception if you fat-finger 
+				the name. There's also a bsGlyph class that constructs a span object with the provided glyph name.
+		";
+	}
+	
+	private all_glyph_text()
+	{
+		return "
+				You can also get a list of all glyph names. Note that this method returns 
+				the glyph name, not the value. Take glyph.star for example. Referencing glyph.star actually 
+				returns a string with 'glyphicon-star'. When you get the list of all glyph names you get the 
+				member name, so that would be a string 'star'. In order to use the name you'll want to prepend 
+				'glyphicon-' before the glyph name.
+		";
+	}
+	
+	private glyph_desc_code()
+	{
+		return string.trim(
+"""
+// Creates a new span with the star glyph.
+glf = new bsGlyph(glyph.star);
+
+// The following creates a glyph and some text, 
+// places it within a div and adds it to some 
+// other element.
+star_info = new _div();
+star_info
+	.add(new bsGlyph(glyph.star))
+	.add(new _span('cali-lang like star'))
+;
+some_element.add(star_info);
+"""
+		);
+	}
+	
+	private all_glyph_code()
+	{
+		return string.trim(
+"""
+// Get list of all glyph names.
+glist = glyph.allGlyphs();
+
+// We can now create a new bsGlyph from 
+// each list item.
+for(gname : glist)
+{
+	ngly = new bsGlyph('glyphicon-' + gname);
+	...
+}
+"""
+		);
+	}
+	
+}

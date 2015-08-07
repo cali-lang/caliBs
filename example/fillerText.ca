@@ -1,0 +1,62 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*******************************************************************
+ * These methods provide the lorem ipsum text paragraphs.
+ ******************************************************************/
+
+static class filler
+{
+	public lorem_p1()
+	{
+		return 
+"""
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis mollis nisi. Vestibulum tincidunt et libero quis placerat. Sed interdum odio ligula, eget faucibus est scelerisque eget. Pellentesque euismod ligula rhoncus elit convallis consectetur. Phasellus fermentum, nisi sit amet dignissim aliquam, lorem nulla efficitur urna, sit amet porttitor lacus dolor a purus. Phasellus dignissim purus ut diam volutpat, et dignissim diam tristique. In vulputate nibh eget augue lacinia elementum. Fusce quis maximus augue. Nulla quis massa fringilla, euismod diam quis, maximus erat. Nulla non arcu id odio bibendum lobortis in sit amet dui. Etiam et urna non lectus fringilla dictum at ut dui.
+""";
+	}
+	
+	public lorem_p2()
+	{
+		return 
+"""
+Aliquam pulvinar id ipsum at egestas. Aliquam tellus dui, porta id nisl in, venenatis congue magna. Cras mattis varius lacus, quis dapibus urna porttitor et. Morbi non erat vel nunc tincidunt malesuada. Nulla blandit pulvinar massa, eu rutrum magna blandit vitae. Proin a porttitor justo. Nam et nisi maximus, rhoncus purus vitae, tristique neque. Duis iaculis facilisis nisl eget sollicitudin. In in lorem vel mi dapibus molestie ultrices id erat. Nunc sollicitudin sapien ac congue hendrerit. Nullam in dolor in felis cursus feugiat id a enim. Nulla facilisi. Donec sodales tempus neque. Integer eu felis lectus. Vivamus mi ipsum, vulputate ut dictum id, aliquam ultrices diam.
+""";
+	}
+	
+	public lorem_p3()
+	{
+		return 
+"""
+Sed consequat tortor ac fringilla tincidunt. Vivamus ut libero ligula. Donec magna urna, venenatis quis efficitur quis, mollis vel velit. Vivamus malesuada augue ornare erat pellentesque dictum vitae sed augue. Morbi tincidunt lectus ut elementum malesuada. Curabitur nec felis at lorem maximus mollis. Sed venenatis eget tellus vitae finibus.
+""";
+	}
+	
+	public lorem_p4()
+	{
+		return 
+"""
+Curabitur vestibulum magna non bibendum ultricies. Duis nec neque sit amet enim efficitur pharetra. Pellentesque odio nibh, fermentum porttitor augue et, maximus suscipit justo. Aenean eget lacinia odio. Duis ut eros posuere, volutpat ex nec, congue lectus. Donec vehicula, est vitae feugiat finibus, ipsum magna blandit eros, quis venenatis nisi dolor quis risus. Maecenas tincidunt ligula ac interdum egestas. Maecenas elit turpis, laoreet ut justo suscipit, sagittis accumsan orci. Aenean id elit vitae felis feugiat vehicula eu ac velit. Fusce congue ante eu arcu pellentesque, in malesuada sapien tincidunt. Pellentesque suscipit tempor dui, et mattis mauris ullamcorper sit amet. Suspendisse et vulputate augue. Donec dapibus turpis auctor ex accumsan viverra. Vivamus pellentesque lorem et quam posuere, non convallis lorem gravida. Quisque condimentum ipsum viverra enim placerat condimentum. In hac habitasse platea dictumst.
+""";
+	}
+	
+	public lorem_p5()
+	{
+		return 
+"""
+Sed volutpat mi sit amet augue convallis egestas. Quisque ac arcu porttitor, efficitur diam at, ullamcorper urna. Aliquam erat volutpat. Aliquam ut venenatis erat, tincidunt finibus dui. Aliquam nec suscipit est. Maecenas vel nunc viverra, posuere felis ac, tincidunt lacus. Praesent neque dolor, faucibus a consequat a, congue at eros. Vivamus commodo lorem ut gravida venenatis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris lobortis ex vitae auctor ultrices.
+""";
+	}
+}

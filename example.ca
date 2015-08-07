@@ -1,0 +1,149 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Include some required modules.
+include console;
+include sys;
+include net.httpServer;
+include file;
+
+// Http error pages.
+include example.httperr;
+
+// Main pages.
+include example.bsAbout;
+include example.bsComp;
+include example.bsGlyphs;
+include example.bsExamples;
+
+// Example pages.
+include example.bsHello;
+include example.bsExampleMenu;
+
+/**
+ * Example HTTP server extends httpServer and serves all the content 
+ * we need for this example.
+ */
+class example : httpServer
+{
+	serverName = null;			// Server name ... set in constructor.
+	serverPort = 9000;			// Default server port.
+	
+	/**
+	 * Entry point of the application.
+	 * @p args is a list with the command line arguments.
+	 */
+	public main(args)
+	{
+		ex = new example();		// Create new example object.
+		ex.start();				// Call super method start to start server.
+		while(true) { sys.sleep(1000); }
+	}
+	
+	/**
+	 * Constructor for our example class. Set the web server name and 
+	 * call the httpServer partent constructor with the port and on handle 
+	 * callback.
+	 */
+	public example()
+	{
+		// Set server name and call httpServer constructor with port and handle method.
+		this.serverName = 'webBs/1.0 (' + sys.getCaliVersion() + ', Simple 4.0)';
+		this.httpServer(this.serverPort, ::'handle');
+		
+		console.println("Starting caliBs example on port " + this.serverPort + " ...");
+	}
+	
+	/**
+	 * Handle method handles each HTTP server request.
+	 * @p req is a httpServerRequest object. See /modsys/net/httpServer.ca file 
+	 * in the cali-lang install directory for details.
+	 * @ res is a httpServerResponse object. See /modsys/net/httpServer.ca file 
+	 * in the cali-lang install directory for details.
+	 */
+	public handle(object req, object res)
+	{
+		// Server time mills.
+		tm = (new date()).getTime();
+		
+		// HTTP Header Info
+		res.setValue('Server', this.serverName);
+		res.setValue('Date', tm);
+		res.setValue('Last-Modified', tm);
+		
+		// Get requested path.
+		pname = req.getPath()['toString'];
+		console.println("Requested Resource: " + pname);
+		
+		try
+		{
+			// Main pages.
+			if(pname == '/' || pname == "/bsAbout") 
+			{ res.setContent((new bsAbout()).toString()); }												// about page
+			else if(pname == "/bsComp") { res.setContent((new bsComp()).toString()); }					// all components page
+			else if(pname == "/bsGlyphs") { res.setContent((new bsGlyphs()).toString()); }				// glyphs page
+			else if(pname == "/bsExamples") { res.setContent((new bsExamples()).toString()); }			// examples page
+			
+			// Example pages.
+			else if(pname == "/bsHello") { res.setContent((new bsHello()).toString()); }				// hello world
+			else if(pname == "/bsExampleMenu") { res.setContent((new bsExampleMenu()).toString()); }	// menu example
+			
+			// Example images.
+			else if(pname == "/img1") { res.writeContent(file.readBinary('example/img/filler1.png')); }
+			else if(pname == "/img2") { res.writeContent(file.readBinary('example/img/filler2.png')); }
+			else if(pname == "/img3") { res.writeContent(file.readBinary('example/img/filler3.png')); }
+			else if(pname == "/img4") { res.writeContent(file.readBinary('example/img/filler4.png')); }
+			
+			// Screen shots.
+			else if(pname == "/ssHelloWorld") { res.writeContent(file.readBinary('example/img/ss_helloWorld.png')); }
+			else if(pname == "/ssExampleMenu") { res.writeContent(file.readBinary('example/img/ss_exampleMenu.png')); }
+
+			// Other resources.
+			else if(pname == "/cali-bs.png") { res.writeContent(file.readBinary('example/img/cali-bs.png')); }
+			else if(pname == "/bootstrap.min.js") { res.writeContent(file.readBinary('example/js/bootstrap.min.js')); }
+			else if(pname == "/jquery.min.js") { res.writeContent(file.readBinary('example/js/jquery.min.js')); }
+			else if(pname == '/bootstrap.min.css') { res.writeContent(file.readBinary('example/css/bootstrap.min.css')); }
+			
+			// Serve everything that's in the example/fonts directory.
+			else if(string.startsWith(pname, "/fonts/"))
+			{
+				if(path.exists('example' + pname))
+				{
+					res.writeContent(file.readBinary('example' + pname));
+				}
+			}
+			
+			else if(pname == '/favicon.ico') { res.close(); /* No favicon */ }
+			else
+			{
+				// Resource not found, send 404.
+				res
+					.setCode(404)
+					.setContent((new errpg404(pname)).toString())
+				;
+			}
+		}
+		catch(e)
+		{
+			// Oops, wonder what happened, send 500.
+			console.err("Unhandled exception:\n" + e.getStackTrace());
+			res
+				.setCode(500)
+				.setContent((new errpg500()).toString())
+			;
+		}
+	}
+}

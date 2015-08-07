@@ -1,0 +1,137 @@
+/*
+ * Copyright 2015 Austin Lehman
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+include net.html.caliBs.bsPages;
+include net.html.caliBs.bsComponents;
+
+include example.bsClasses;
+include file;
+
+/**
+ * Examples page provides links to a few example pages.
+ */
+class bsExamples : examplePage
+{
+	/**
+	 * Constructor builds the examples page.
+	 */
+	public bsExamples()
+	{
+		// Call constructor with the page title.
+		this.examplePage("caliBs Examples");
+		
+		// Create a new bootstrap container div (defined in bsComponents).
+		ctr = new bsContainer();
+		ctr
+			.add(new _h1("Examples"))
+			.add(new _p(this.examples_text()))
+			.br()
+		;
+		
+		/*
+		 * Hello World
+		 */
+		hwgrid = new bsHbox();
+		hwimg = new _img('ssHelloWorld', 'caliBs Hello World Screenshot', 330);
+		hwgrid
+			.addCell(new _div(
+				(new _a('bsHello', hwimg))
+					.set('target', '_blank')
+			), 4)
+			.addCell(new _div(this.hello_text()), 8)
+		;
+		
+		ctr
+			// bsHello.ca
+			.add(new _h2("caliBs Hello World"))
+			.add(hwgrid)
+		;
+		
+		ctr.add(new _h6(new _text('Source:')));
+		ctr.add(new bsPre(new _text(file.read('example/bsHello.ca'))));
+		ctr.br();
+		
+		/*
+		 * Example Menu / Grid
+		 */
+		emgrid = new bsHbox();
+		emimg = new _img('ssExampleMenu', 'caliBs Example Menu/Grid Screenshot', 330);
+		emgrid
+			.addCell(new _div(
+				(new _a('bsExampleMenu', emimg))
+					.set('target', '_blank')
+			), 4)
+			.addCell(new _div(this.example_menu_text()), 8)
+		;
+		
+		ctr
+			// bsHello.ca
+			.add(new _h2("caliBs Example Menu/Grid"))
+			.add(emgrid)
+		;
+		ctr.br();
+		
+		// Add the container to the body of the page.
+		this.body.add(ctr);
+	}
+	
+	/*****************************************************************
+	 * Example page text sections
+	 ****************************************************************/
+	
+	private examples_text()
+	{
+		return "
+		Here are a few examples of pages implemented with caliBs. The examples 
+		are provided to help you get started. The components and glyphs pages have 
+		a brief description of the available components and glyphs and examples of how to use 
+		them.
+		";
+	}
+	
+	private hello_text()
+	{
+		res = new _p();
+		res.text("
+		The hello world page illustrates how to extend the bsPage object 
+		and add a few caliBs components to it. It makes use of the bootstrap 
+		jumbotron element that is implemented in caliBs as bsJumbo class. 
+		Below is a link to view the page and the source code for the page.
+		");
+		res
+			.br().br()
+			.text('View Page: ')
+			.add((new _a('bsHello', new _text('bsHello page'))).set('target', '_blank'))
+		;
+		return res;
+	}
+	
+	private example_menu_text()
+	{
+		res = new _p();
+		res.text("
+		The example menu and grid page illustrates how to use the navbar element as well 
+		as the grid system. The source code for the page is at the bottom of that page. 
+		");
+		res
+			.br().br()
+			.text('View Page: ')
+			.add((new _a('bsExampleMenu', new _text('bsExampleMenu page'))).set('target', '_blank'))
+		;
+		return res;
+	}
+}
