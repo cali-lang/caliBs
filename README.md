@@ -4,6 +4,8 @@ Cali-Lang wrapping of standard HTML library with Bootstrap style.
 # About:
 CaliBs is an opensource Cali-Lang library for creating responsive web pages. It uses Bootstrap CSS/JS and Cali-Lang HTML library and provides a simple API for creating stylish and well formatted websites. CaliBs classes extend the cali-lang built-in html classes. For details on these see /modsys/net/html/ directory in your cali-lang installation folder.
 
+The example site can be viewed at <a href='http://calibs.cali-lang.com/' target='_blank'>calibs.cali-lang.com/</a> .
+
 # Requirements:
 CaliBs requires a local installation of cali-lang version 0.95a or later. Get the latest version at <a href='http://www.cali-lang.com/' target='_blank'>http://www.cali-lang.com/</a> .
 
