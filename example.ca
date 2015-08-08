@@ -113,18 +113,9 @@ class example : httpServer
 
 			// Other resources.
 			else if(pname == "/cali-bs.png") { res.writeContent(file.readBinary('example/img/cali-bs.png')); }
-			else if(pname == "/bootstrap.min.js") { res.writeContent(file.readBinary('example/js/bootstrap.min.js')); }
-			else if(pname == "/jquery.min.js") { res.writeContent(file.readBinary('example/js/jquery.min.js')); }
-			else if(pname == '/bootstrap.min.css') { res.writeContent(file.readBinary('example/css/bootstrap.min.css')); }
 			
-			// Serve everything that's in the example/fonts directory.
-			else if(string.startsWith(pname, "/fonts/"))
-			{
-				if(path.exists('example' + pname))
-				{
-					res.writeContent(file.readBinary('example' + pname));
-				}
-			}
+			// Serve everything that's in the public_html/ directory.
+			else if(path.exists('public_html' + pname)) { res.writeContent(file.readBinary('public_html' + pname)); }
 			
 			else if(pname == '/favicon.ico') { res.close(); /* No favicon */ }
 			else
