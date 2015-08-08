@@ -48,6 +48,8 @@ class bsAbout : examplePage
 			.br()
 			.add(this.license_text())
 			.br()
+			.add(this.download_text())
+			.br()
 			.add(this.getting_started_text())
 			.br()
 		;
@@ -105,6 +107,24 @@ class bsAbout : examplePage
 		dv.add((new _p()).text("
 		CaliBs is released under the Apache 2 license. Free as in freedom.
 		"));
+		
+		return dv;
+	}
+	
+	/**
+	 * Creates the download text section and returns it.
+	 * @r A _div with the license text.
+	 */
+	private download_text()
+	{
+		dv = new _div();
+		dv.add(new _h2(new _text('Download')));
+		dv.add((new _p()).text("
+		Download the latest version on Github at 
+		")
+		.add((new _a('https://github.com/cali-lang/caliBs', new _text('github.com/cali-lang/caliBs'))).set('target', '_blank'))
+		.text('.')
+		);
 		
 		return dv;
 	}
