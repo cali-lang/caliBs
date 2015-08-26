@@ -427,7 +427,7 @@ class bsSizable
 class bsBtn : _button, bsSizable
 {
 	public icon = null;
-	public text = null;
+	public btnText = null;
 	public btnDesc = 'default';
 	public disabled = false;
 	public block = false;
@@ -444,7 +444,7 @@ class bsBtn : _button, bsSizable
 	{
 		this._button('button', '', 'btn');
 		this.icon = Glyph;
-		this.text = Text;
+		this.btnText = Text;
 		this.set('onClick', OnClick);
 		
 		this.size = null;								// no size to begin with
@@ -469,13 +469,13 @@ class bsBtn : _button, bsSizable
 	 * @p Text is the text for the button.
 	 * @r this
 	 */
-	public setText(string Text) { this.text = Text; return this; }
+	public setText(string Text) { this.btnText = Text; return this; }
 	
 	/**
 	 * Gets the text for the button.
 	 * @r A string with text for the button.
 	 */
-	public getText() { return this.text; }
+	public getText() { return this.btnText; }
 	
 	/**
 	 * Set button description. (See bsDesc for options.)
@@ -527,7 +527,7 @@ class bsBtn : _button, bsSizable
 	public toString()
 	{
 		if(this.icon) { this.add(new bsGlyph(this.icon)).text(' '); }
-		if(this.text) { this.text(this.text); }
+		if(this.btnText) { this.text(this.btnText); }
 	
 		this.addClass('btn-' + this.btnDesc);
 		if(this.disabled) { this.addClass('disabled'); }
@@ -773,7 +773,7 @@ class bsDropdown : bsBtn
 		}
 		
 		if(this.icon) { tbtn.add(new bsGlyph(this.icon)).text(' '); }
-		if(this.text) { tbtn.text(this.text); }
+		if(this.btnText) { tbtn.text(this.btnText); }
 		if(this.getBtnDesc()) { tbtn.setBtnDesc(this.getBtnDesc()); }
 		if(this.getSize()) { tbtn.setSize(this.getSize()); }
 		
