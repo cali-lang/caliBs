@@ -15,7 +15,6 @@
  */
 
 include net.html.html;
-include reflect;
 
 /**
  * Glyph class extends span element.
@@ -239,14 +238,4 @@ static class glyph
 	public cloud_upload = "glyphicon-cloud-upload";
 	public tree_conifer = "glyphicon-tree-conifer";
 	public tree_deciduous = "glyphicon-tree-deciduous";
-
-	/**
-	 * Returns a sorted list with all glyph names.
-	 * @r A sorted list of glyph names.
-	 */
-	public allGlyphs()
-	{
-		cls = reflect.getClassDef("glyph");
-		return list.sort(map.keySet(cls.getMembers()));
-	}
 }

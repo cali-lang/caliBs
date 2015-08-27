@@ -21,6 +21,8 @@ include net.html.caliBs.bsGlyphs;
 
 include example.bsClasses;
 
+include reflect;
+
 /**
  * Demo page for glyphs.
  */
@@ -73,7 +75,7 @@ class bsGlyphs : examplePage
 		
 		// Loop through all glyph names and add them in rows of 4 each.
 		crow = new bsHbox(bsSize.xs);
-		for(glname : glyph.allGlyphs())
+		for(glname : this.allGlyphs())
 		{	
 			gdiv = new _div();
 			gdiv.set('style', 'text-align: center; width: 140px; height: 80px; padding-top: 20px; padding-bottom: 20px');
@@ -90,6 +92,15 @@ class bsGlyphs : examplePage
 		this.body.add(ctr);
 	}
 	
+	/**
+	 * Returns a sorted list with all glyph names.
+	 * @r A sorted list of glyph names.
+	 */
+	public allGlyphs()
+	{
+		cls = reflect.getClassDef("glyph");
+		return list.sort(map.keySet(cls.getMembers()));
+	}
 	
 	/*****************************************************************
 	 * Helper methods with text and code sections.
@@ -106,8 +117,9 @@ class bsGlyphs : examplePage
 	private all_glyph_text()
 	{
 		return "
-				You can also get a list of all glyph names. Note that this method returns 
-				the glyph name, not the value. Take glyph.star for example. Referencing glyph.star actually 
+				You can also get a list of all glyph names by using the reflect module. See the allGlyphs() 
+				method below for the implementation. Note that this method returns a list of glyph names, 
+				not the values. Take glyph.star for example. Referencing glyph.star actually 
 				returns a string with 'glyphicon-star'. When you get the list of all glyph names you get the 
 				member name, so that would be a string 'star'. In order to use the name you'll want to prepend 
 				'glyphicon-' before the glyph name.
@@ -138,8 +150,15 @@ some_element.add(star_info);
 	{
 		return string.trim(
 """
+// Method uses reflect to get a sorted list of glpyh names.
+public allGlyphs()
+{
+	cls = reflect.getClassDef("glyph");
+	return list.sort(map.keySet(cls.getMembers()));
+}
+
 // Get list of all glyph names.
-glist = glyph.allGlyphs();
+glist = this.allGlyphs();
 
 // We can now create a new bsGlyph from 
 // each list item.
