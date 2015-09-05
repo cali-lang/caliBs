@@ -38,7 +38,7 @@ class bsPage : _html
 	 * @p Title is a string with the title of the page or null.
 	 * @p ResourcePath is a string with the path to the public resources.
 	 */
-	public bsPage(string Title = null)
+	public bsPage(string Title = null, string ResourcePath = '')
 	{
 		// Call parent constructor.
 		this._html();
@@ -55,7 +55,7 @@ class bsPage : _html
 		
 		// Create new bootstrap CDN link and add it to head. This can be changed.
 		// later by modifying the member bsLink.
-		this.bsLink = new _link('stylesheet', 'text/css', 'css/bootstrap.min.css');
+		this.bsLink = new _link('stylesheet', 'text/css', ResourcePath + 'css/bootstrap.min.css');
 		this.head.add(this.bsLink);
 		
 		// Create body and add to page.
@@ -63,8 +63,8 @@ class bsPage : _html
 		this.add(this.body);
 		
 		// Create jquery and bootstrap js script tags and add them to jsScripts list.
-		this.jqScript = (new _script()).set('src', 'js/jquery.min.js');
-		this.bsScript = (new _script()).set('src', 'js/bootstrap.min.js');
+		this.jqScript = (new _script()).set('src', ResourcePath + 'js/jquery.min.js');
+		this.bsScript = (new _script()).set('src', ResourcePath + 'js/bootstrap.min.js');
 		this.jsScripts @= this.jqScript;
 		this.jsScripts @= this.bsScript;
 	}
