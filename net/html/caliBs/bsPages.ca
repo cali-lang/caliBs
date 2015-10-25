@@ -29,6 +29,7 @@ class bsPage : _html
 	
 	public body = null;					// Body section.
 	
+	public localScript = null;			// For any caliBs specific JS code.
 	public jqScript = null;				// Jquery JS script link.
 	public bsScript = null;				// Bootstrap JS script link.
 	public jsScripts = [];				// List of JS links to be added at end of body section.
@@ -67,6 +68,25 @@ class bsPage : _html
 		this.bsScript = (new _script()).set('src', ResourcePath + 'js/bootstrap.min.js');
 		this.jsScripts @= this.jqScript;
 		this.jsScripts @= this.bsScript;
+		
+		// Create local script from text node.
+		this.localScript = new _text("");
+		lscript = new _script(this.localScript);
+		this.jsScripts @= lscript;
+		
+		/* Make navbar automatically collapse when link is clicked. */
+		this.localScript.append(
+"""
+$('.nav a').on('click', function()
+{
+	if(window.innerWidth < 768)
+	{
+	    $('.btn-navbar').click();
+	    $('.navbar-toggle').click();
+	}
+});
+"""
+		);
 	}
 	
 	/**
@@ -75,7 +95,7 @@ class bsPage : _html
 	 * nav bar.
 	 * @r this
 	 */
-	public setFixedTopNav() { this.body.set('style', 'min-height: 2000px; padding-top: 70px;'); return this; }
+	public setFixedTopNav() { this.body.set('style', 'padding-top: 50px;'); return this; }
 	
 	/**
 	 * Override the toString so we can add the jsScripts at the very 
