@@ -953,6 +953,25 @@ class bsInGroup : _div, bsSizable
 }
 
 /**
+ *
+ */
+class bsSelect : _select
+{
+	public bsSelect(string Name = "", string Id = null)
+	{
+		this._select(Name, Id, "bs-select");
+	}
+	
+	public addOption(string Display, string Value)
+	{
+		opt = new _option(new _text(Display));
+		opt.set("value", Value);
+		this.add(opt);
+		return this;
+	}
+}
+
+/**
  * bsNavItem extends _li object and implements bootstrap 
  * nav item functionality.
  */

@@ -26,12 +26,15 @@ class bsPage : _html
 {
 	public head = null;					// Head section.
 	public bsLink = null;				// Bootsrap link.
+	public selLink = null;				// Select2 link.
+	public bsSelLink = null;			// Bootstrap select2 css.
 	
 	public body = null;					// Body section.
 	
 	public localScript = null;			// For any caliBs specific JS code.
 	public jqScript = null;				// Jquery JS script link.
 	public bsScript = null;				// Bootstrap JS script link.
+	public bsSelScript = null;			// Bootstrap select2 support.
 	public jsScripts = [];				// List of JS links to be added at end of body section.
 	
 	/**
@@ -57,7 +60,9 @@ class bsPage : _html
 		// Create new bootstrap CDN link and add it to head. This can be changed.
 		// later by modifying the member bsLink.
 		this.bsLink = new _link('stylesheet', 'text/css', ResourcePath + 'css/bootstrap.min.css');
-		this.head.add(this.bsLink);
+		this.selLink = new _link('stylesheet', 'text/css', ResourcePath + 'css/select2.css');
+		this.bsSelLink = new _link('stylesheet', 'text/css', ResourcePath + 'css/select2-bootstrap.css');
+		this.head.add(this.bsLink).add(this.selLink).add(this.bsSelLink);
 		
 		// Create body and add to page.
 		this.body = new _body();
@@ -66,8 +71,10 @@ class bsPage : _html
 		// Create jquery and bootstrap js script tags and add them to jsScripts list.
 		this.jqScript = (new _script()).set('src', ResourcePath + 'js/jquery.min.js');
 		this.bsScript = (new _script()).set('src', ResourcePath + 'js/bootstrap.min.js');
+		this.bsSelScript = (new _script()).set('src', ResourcePath + 'js/select2.min.js');
 		this.jsScripts @= this.jqScript;
 		this.jsScripts @= this.bsScript;
+		this.jsScripts @= this.bsSelScript;
 		
 		// Create local script from text node.
 		this.localScript = new _text("");
@@ -75,6 +82,7 @@ class bsPage : _html
 		this.jsScripts @= lscript;
 		
 		/* Make navbar automatically collapse when link is clicked. */
+		/* Set select2 as well. */
 		this.localScript.append(
 """
 $('.nav a').on('click', function()
@@ -84,6 +92,10 @@ $('.nav a').on('click', function()
 	    $('.btn-navbar').click();
 	    $('.navbar-toggle').click();
 	}
+});
+$(document).ready(function()
+{
+	$(".bs-select").select2({ width: 'resolve' });
 });
 """
 		);

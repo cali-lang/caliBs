@@ -323,6 +323,17 @@ class bsComp : examplePage
 			)
 			.br()
 			
+			/**********************************************************
+			 * Selects
+			 *********************************************************/
+			.add(new _h2("Selects"))
+			
+			.add((new bsSelect('my_select'))
+					.addOption("United States", "US")
+					.addOption("Canada", "CA")
+					.addOption("Mexico", "MX")
+				)
+			.br()
 			
 			/**********************************************************
 			 * Navs
