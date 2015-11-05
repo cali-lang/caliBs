@@ -279,6 +279,7 @@ class bsNavBar : _nav
 		if(#this.menuItems > 0)
 		{
 			ullst = new _ul(null, 'nav navbar-nav');
+			ullst.set('id', 'nav_bar_left_list');
 			nbdiv.add(ullst);
 			for(mi : this.menuItems) { ullst.add(mi); }
 		}
@@ -296,6 +297,7 @@ class bsNavBar : _nav
 		if(#this.rightMenuItems > 0)
 		{
 			ullst = new _ul(null, 'nav navbar-nav navbar-right');
+			ullst.set('id', 'nav_bar_right_list');
 			nbdiv.add(ullst);
 			for(mi : this.rightMenuItems) { ullst.add(mi); }
 		}
@@ -1456,5 +1458,107 @@ class bsTd : _td
 			else { this.addClass(BsDesc); }
 		}
 		return this;
+	}
+}
+
+class bsDialog : _div
+{
+	dlg = null;
+	dlgContent = null;
+	
+	// Holds body items.
+	bodyItems = [];
+	
+	// Holds footer items.
+	footerItems = [];
+	
+	/**
+	 * Creates a new bsDialog with the provided ID. (Extends _div)
+	 * @p Id is a string with the ID of the bsDialog.
+	 */
+	public bsDialog(string Id)
+	{
+		this._div();
+		this.set("id", Id);
+		this.addClass("modal fade");
+		this.set("tabindex", "-1");
+		this.set("role", "dialog");
+		
+		this.dlg = new _div();
+		this.dlg.addClass("modal-dialog");
+		this.dlg.set("role", "document");
+		this.add(this.dlg);
+		
+		this.dlgContent = new _div();
+		this.dlgContent.addClass("modal-content");
+		this.dlg.add(this.dlgContent);
+	}
+	
+	/**
+	 * Adds the provided content and sets the header.
+	 * @p Content is a string for the header content.
+	 * @p CloseButton is a bool with true to show the close button 
+	 * and false to not. (Optional, default true.)
+	 * @r this
+	 */
+	public setHeader(string Content, bool CloseButton = true)
+	{
+		hdr = new _div();
+		hdr.addClass("modal-header");
+		this.dlgContent.add(hdr);
+		
+		if(CloseButton)
+		{
+			cbtn = new _button("button");
+			cbtn.addClass("close");
+			cbtn.set("data-dismiss", "modal");
+			cbtn.set("aria-label", "Close");
+			
+			cspn = new _span();
+			cspn.set("aria-hidden", "true");
+			cspn.text("&times;");
+			cbtn.add(cspn);
+			
+			hdr.add(cbtn);
+		}
+		
+		httl = new _h4();
+		httl.addClass("modal-title");
+		httl.text(Content);
+		
+		hdr.add(httl);
+		
+		return this;
+	}
+	
+	public addBody(Content)
+	{
+		this.bodyItems @= Content;
+		return this;
+	}
+	
+	public addFooter(Content)
+	{
+		this.footerItems @= Content;
+		return this;
+	}
+	
+	/**
+	 * Override the default toString to implement custom rendering.
+	 * @r A string with the HTML content.
+	 */
+	public toString()
+	{
+		bdy = new _div();
+		bdy.addClass("modal-body");
+		for(item : this.bodyItems) { bdy.add(item); }
+		this.dlgContent.add(bdy);
+		
+		ftr = new _div();
+		ftr.addClass("modal-footer");
+		for(item : this.footerItems) { ftr.add(item); }
+		this.dlgContent.add(ftr);
+		
+		return this.toHtml();
 	}
 }
